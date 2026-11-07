@@ -1,0 +1,424 @@
+% ============================================================================
+% Fichier  : partie4/P04_C16_audit_securite_infrastructure.tex
+% Titre    : Auditer la Sécurité et l'Infrastructure
+% Auteur   : MINKA MI NGUIDJOÏ Thierry Emmanuel
+% Version  : 1.0 -- octobre 2026
+% ============================================================================
+% Sources : loi n° 2010/012 (texte français consulté) : art. 13 et 32 (audit
+% légal, rappel du chapitre 12), art. 69 (accès sans droit) et 70 (attaque
+% par saturation) cités pour l'encadrement des tests ; ISO/IEC 27001:2022
+% (clauses 4 à 10, § 9.2 audit interne, déclaration d'applicabilité),
+% ISO/IEC 27007:2020 ; ISO/IEC 27002:2022 (numéros 8.8, 8.9, 8.15, 8.20,
+% 8.22, 8.24 à vérifier dans l'édition en vigueur) ; guide du CHAI, fiche
+% 3.2 « audit de sécurité » ; TP « infrastructure » du cours Audit_SI de
+% l'auteur (VLAN, matrice de flux, comptes par défaut, protocoles en clair),
+% mis en cohérence. Aucun scan réel : les exports du ACSI-LAB-08 sont figés.
+% ============================================================================
+
+\chapter{Auditer la Sécurité et l'Infrastructure}
+\label{chap:audit-securite}
+\chaptermark{Auditer la sécurité}
+
+\epigraph{%
+    « Une politique de sécurité dit ce qui devrait être fermé.\\
+    Une configuration dit ce qui l'est. »%
+}{Adage des auditeurs techniques}
+
+\niveauChapitre{Intermédiaire}{%
+    Maîtrise du Chapitre~\ref{chap:referentiels} (ISO/IEC~27001 et 27002)
+    et du Chapitre~\ref{chap:droit} (loi n°~2010/012)%
+}
+
+\begin{boxobjectifs}
+\begin{itemize}
+    \item Distinguer trois audits de sécurité~: l'audit légal, l'audit d'un
+          SMSI et l'audit technique.
+    \item Auditer un SMSI selon l'ISO/IEC~27007, de l'appréciation des
+          risques à la preuve de fonctionnement des mesures.
+    \item Décomposer l'audit d'une infrastructure~: segmentation,
+          durcissement, protocoles, vulnérabilités, journalisation.
+    \item Comparer les flux autorisés et les flux observés.
+    \item Encadrer un test technique~: autorisation écrite, périmètre,
+          méthodes, preuves.
+\end{itemize}
+\end{boxobjectifs}
+
+\bigskip
+
+% ============================================================================
+\section*{Question directrice : ce qui est écrit est-il configuré~?}
+% ============================================================================
+
+LiZbiZ exploite quatre centres de données, à Douala, Yaoundé, Garoua et
+Bafoussam. Sa politique de sécurité interdit les protocoles
+d'administration en clair, impose le changement des mots de passe par
+défaut et sépare les postes des utilisateurs des serveurs de base de
+données. Le domaine~D a montré que les accès étaient mal tenus
+(Chapitre~\ref{chap:decomposition}). AUDIX CONSEIL doit maintenant dire si
+l'infrastructure est configurée comme la politique l'écrit.
+
+À Douala, la BANQUE SANAGA prépare à la fois l'audit de sécurité annuel de
+l'ANTIC et la certification ISO/IEC~27001 de son centre de données.
+
+Ce chapitre distingue les trois audits de sécurité
+(section~\ref{sec:c16-trois}), présente l'audit d'un SMSI
+(section~\ref{sec:c16-smsi}), décompose l'audit de l'infrastructure
+(section~\ref{sec:c16-infra}) et encadre les tests techniques
+(section~\ref{sec:c16-tests}). Le ACSI-LAB-08 applique la méthode aux exports
+figés des quatre centres de LiZbiZ.
+
+\separateur
+
+% ============================================================================
+\section{Trois Audits de Sécurité}
+\label{sec:c16-trois}
+% ============================================================================
+
+\begin{tableaucours}{L{2.4cm}L{3.2cm}L{3.4cm}L{3.2cm}}{%
+    \tableauHeader{Audit} &
+    \tableauHeader{Fondement} &
+    \tableauHeader{Objet} &
+    \tableauHeader{Destinataire}
+}
+Audit de sécurité légal & Loi n°~2010/012, art.~13 et~32 & Politique,
+mesures, procédures et moyens, au regard des risques & Ministre chargé des
+Télécommunications~; rapport confidentiel \\
+Audit d'un SMSI & ISO/IEC~27001 (§~9.2) et 27007~; certification par un
+organisme accrédité & Le système de management~: risques, mesures,
+amélioration & Direction~; organisme de certification \\
+Audit technique & Lettre de mission et note d'autorisation & Configurations,
+vulnérabilités, flux, comptes & RSSI, DSI \\
+\end{tableaucours}
+\vspace{-0.8em}
+\begin{center}{\small\itshape Tableau~16.1. Trois audits de sécurité}\end{center}
+
+Les trois se complètent. L'audit d'un SMSI vérifie que l'organisation
+\emph{gère} sa sécurité~; l'audit technique vérifie que les mesures sont
+\emph{effectivement en place}~; l'audit légal, défini largement par
+l'article~4 de la loi (Chapitre~\ref{chap:droit}), couvre les deux. Le
+guide du CHAI rappelle en outre que le dispositif de sécurité doit être
+justifié par les actifs qu'il protège~: l'auditeur examine aussi
+l'inventaire des actifs et l'appréciation des risques qui l'ont fondé.
+
+% ============================================================================
+\section{Auditer un SMSI}
+\label{sec:c16-smsi}
+% ============================================================================
+
+\subsection{La chaîne du SMSI}
+
+L'ISO/IEC~27001 organise ses exigences en clauses, de la clause~4
+(contexte) à la clause~10 (amélioration)~: contexte et périmètre,
+leadership, planification (appréciation et traitement des risques),
+support, fonctionnement, évaluation des performances (dont l'audit
+interne et la revue de direction), amélioration~\cite{iso27001_2022}.
+L'ISO/IEC~27007 guide l'auditeur clause par clause~\cite{iso27007_2020}.
+
+Pour l'auditeur, le SMSI est une chaîne, et chaque maillon laisse une
+pièce.
+
+\begin{tableaucours}{L{3.6cm}L{4.4cm}L{4.2cm}}{%
+    \tableauHeader{Maillon} &
+    \tableauHeader{Pièce} &
+    \tableauHeader{Question d'audit}
+}
+Périmètre & Déclaration de périmètre & Les systèmes critiques y
+figurent-ils~? \\
+Appréciation des risques & Registre des risques de sécurité & Est-elle
+datée, revue, cohérente avec les actifs~? \\
+Traitement & Plan de traitement, déclaration d'applicabilité & Chaque
+exclusion de mesure est-elle justifiée~? \\
+Mesures & Procédures, configurations, journaux & Chaque mesure retenue
+fonctionne-t-elle~? \\
+Évaluation & Rapports d'audit interne, revue de direction & Les écarts
+sont-ils suivis jusqu'à leur clôture~? \\
+\end{tableaucours}
+\vspace{-0.8em}
+\begin{center}{\small\itshape Tableau~16.2. La chaîne du SMSI et ses
+preuves}\end{center}
+
+\begin{boxinfo}
+\textbf{Une mesure déclarée n'est pas une mesure en place.} La déclaration
+d'applicabilité dit qu'une mesure est retenue~; elle ne dit pas qu'elle
+fonctionne. Sans preuve de fonctionnement, l'auditeur cote \NEK{}, et le
+taux d'incertitude du SMSI mesure la distance entre le papier et la
+réalité.
+\end{boxinfo}
+
+% ============================================================================
+\section{Auditer l'Infrastructure}
+\label{sec:c16-infra}
+% ============================================================================
+
+\subsection{Cinq sous-domaines}
+
+\begin{tableaucours}{cL{3.0cm}L{5.6cm}L{2.2cm}}{%
+    \tableauHeader{Code} &
+    \tableauHeader{Sous-domaine} &
+    \tableauHeader{Contrôle clé} &
+    \tableauHeader{ISO/IEC 27002}
+}
+IN.1 & Architecture et segmentation & Seuls les flux autorisés par la
+matrice de flux traversent les zones & 8.20, 8.22 \\
+IN.2 & Durcissement & Aucun compte par défaut actif avec son mot de passe
+d'origine & 8.9 \\
+IN.3 & Protocoles & Aucun protocole d'administration ou de transfert en
+clair & 8.20, 8.24 \\
+IN.4 & Vulnérabilités et correctifs & Les correctifs critiques sont
+appliqués dans le délai de la politique & 8.8 \\
+IN.5 & Journalisation et surveillance & Les équipements envoient leurs
+journaux à un point central surveillé & 8.15 \\
+\end{tableaucours}
+\vspace{-0.8em}
+\begin{center}{\small\itshape Tableau~16.3. Décomposition de l'audit de
+l'infrastructure (numéros de l'édition 2022, à vérifier)}\end{center}
+
+IN.5 rejoint l'article~29 de la loi n°~2010/012 (surveillance des accès,
+conservation des journaux, Chapitre~\ref{chap:droit}) et le sous-domaine
+D.5 du contrôle d'accès~: l'auditeur réutilise les mêmes preuves.
+
+\subsection{Flux autorisés, flux observés}
+
+La segmentation se vérifie en comparant deux matrices~: celle des flux que
+la politique autorise entre zones, et celle des flux que les règles des
+pare-feu laissent réellement passer. L'écart entre les deux est le
+constat.
+
+\begin{tableaucours}{L{3.0cm}cccc}{%
+    \tableauHeader{De \textbackslash{} vers} &
+    \tableauHeader{DMZ} & \tableauHeader{Applicatif} &
+    \tableauHeader{Utilisateurs} & \tableauHeader{Administration}
+}
+Internet & 443 & -- & -- & -- \\
+DMZ & -- & 8443 & \textbf{445 (observé)} & -- \\
+Utilisateurs & 443 & 8443 \textbf{+ 1433 (observé)} & -- & -- \\
+Administration & 22 & 22 & 22 & -- \\
+\end{tableaucours}
+\vspace{-0.8em}
+\begin{center}{\small\itshape Tableau~16.4. Matrice de flux d'un centre de
+données~: ports autorisés, et en gras les flux observés non
+autorisés}\end{center}
+
+Dans cet exemple, deux flux non autorisés sont ouverts~: de la DMZ vers les
+postes (un serveur web compromis pourrait atteindre les utilisateurs), et
+des postes vers la base de données (port~1433~: un utilisateur peut
+contourner l'application et attaquer la base).
+
+\subsection{Quatre centres, une même politique}
+
+\begin{boxlecture}{Les quatre centres de LiZbiZ}
+AUDIX CONSEIL cote, pour chaque centre, le contrôle clé de chacun des cinq
+sous-domaines, d'après les exports de configuration remis par la DSI.
+
+\medskip
+\begin{tableaucours}{L{2.6cm}cccccc}{%
+    \tableauHeader{Centre} &
+    \tableauHeader{IN.1} & \tableauHeader{IN.2} & \tableauHeader{IN.3} &
+    \tableauHeader{IN.4} & \tableauHeader{IN.5} & \tableauHeader{O/N/K}
+}
+Douala & \NON{} & \OUI{} & \OUI{} & \OUI{} & \OUI{} & 4 / 1 / 0 \\
+Yaoundé & \OUI{} & \NON{} & \OUI{} & \OUI{} & \OUI{} & 4 / 1 / 0 \\
+Garoua & \NON{} & \NON{} & \NON{} & \NEK{} & \NON{} & 0 / 4 / 1 \\
+Bafoussam & \NON{} & \NON{} & \NON{} & \NEK{} & \NEK{} & 0 / 3 / 2 \\
+Ensemble & & & & & & 8 / 9 / 3 \\
+\end{tableaucours}
+
+\medskip
+\textbf{Constatation.} Ensemble~: $\mu = 0{,}40$~; $U = 0{,}15$~;
+$H \approx 1{,}46$~bit. Douala et Yaoundé ont chacun un écart~; Garoua et
+Bafoussam n'appliquent pratiquement pas la politique. Pour ces deux
+centres, l'état des correctifs n'a pas pu être établi~: aucun export n'a
+été produit.
+
+\medskip
+\textbf{Analyse} (confiance moyenne). Non-conformité claire pour
+l'ensemble, mais la cause est localisée~: selon la DSI, les centres de
+Garoua et de Bafoussam ont été installés par un prestataire, sans
+reprendre la configuration de référence (à confirmer par les dossiers
+d'installation).
+Une moyenne des quatre centres serait trompeuse~; la recommandation
+porte sur une configuration de référence imposée à chaque nouveau site,
+et vérifiée avant sa mise en service.
+
+\medskip
+\hfill\lecture{0{,}40}{0{,}15}{1{,}46}
+\end{boxlecture}
+
+% ============================================================================
+\section{Encadrer les Tests Techniques}
+\label{sec:c16-tests}
+% ============================================================================
+
+\subsection{Pourquoi une autorisation écrite}
+
+Un auditeur qui scanne un réseau ou tente une connexion accomplit
+matériellement des actes que la loi réprime lorsqu'ils sont faits sans
+droit.
+
+\begin{boxjuris}
+\textbf{\loicam{n°~2010/012}, article~69}~: \textit{« Est puni d'un
+emprisonnement de cinq (05) à dix (10) ans et d'une amende de 10.000.000
+(dix millions) à 100.000.000 (cent millions) F CFA ou de l'une de ces deux
+peines seulement, celui qui accède sans droit, et en violation des mesures
+de sécurité, à l'ensemble ou à une partie d'un réseau de communications
+électroniques, d'un système d'information ou d'un équipement terminal,
+afin d'obtenir des informations ou des données, en relation avec un
+système d'information connecté à un autre système d'information. »}
+
+\medskip
+\textbf{Article~70} (résumé)~: est puni d'amende celui qui provoque par
+saturation l'attaque d'une ressource de réseau ou d'un système
+d'information, dans le but d'empêcher la réalisation des services
+attendus.
+
+\medskip
+\textbf{Analyse.} L'autorisation écrite du responsable du système est ce
+qui donne à l'auditeur le droit d'accéder. Sans elle, le test technique
+peut tomber sous l'article~69. Un test de charge non encadré peut
+produire l'effet visé par l'article~70~: les tests de déni de service
+sont exclus, sauf autorisation expresse et environnement dédié.
+\end{boxjuris}
+
+\subsection{La note d'autorisation}
+
+\begin{boxprocedure}
+\textbf{Contenu de la note d'autorisation d'un test technique.}
+\begin{enumerate}
+    \item \textbf{Signataire}~: une personne habilitée à engager
+          l'organisation sur les systèmes visés, et, pour un système
+          hébergé, l'accord écrit de l'hébergeur.
+    \item \textbf{Périmètre}~: adresses, systèmes et applications inclus~;
+          systèmes explicitement exclus.
+    \item \textbf{Méthodes}~: lecture de configuration, scan de ports, scan
+          de vulnérabilités, test d'intrusion~; ce qui est interdit (déni
+          de service, modification de données).
+    \item \textbf{Fenêtres}~: dates et heures autorisées, hors des périodes
+          critiques.
+    \item \textbf{Contacts}~: un interlocuteur joignable pendant les tests,
+          et une procédure d'arrêt immédiat.
+    \item \textbf{Résultats}~: confidentialité, conservation, destruction
+          à la fin de la mission (art.~14 et~61, Chapitre~\ref{chap:droit}).
+\end{enumerate}
+\end{boxprocedure}
+
+\subsection{Des tests qui produisent des preuves}
+
+Un test technique produit des sorties d'outils~: listes de ports, résultats
+de scan, exports de règles. Pour être opposables, elles sont conservées
+brutes, horodatées et accompagnées d'une empreinte, comme toute extraction
+(Chapitre~\ref{chap:preuve}). L'interprétation (gravité, exploitabilité)
+vient ensuite, dans le papier de travail.
+
+\begin{boxalert}
+\textbf{Violation typique.} Lancer un scan « rapide » du réseau de Garoua
+depuis le portable de l'auditeur, la veille de la signature de la note
+d'autorisation, « pour gagner du temps ».
+
+\smallskip
+\textbf{Règle~:} aucun test avant la signature, aucun test hors du
+périmètre ni de la fenêtre. Un constat obtenu sans droit n'est pas
+opposable, et il expose l'auditeur.
+\end{boxalert}
+
+\begin{boxmetier}{RSSI}
+\textbf{Préparer un audit technique}
+\begin{enumerate}
+    \item Fournir la matrice de flux autorisés et la configuration de
+          référence de chaque type d'équipement.
+    \item Faire signer la note d'autorisation par la personne habilitée,
+          avec l'accord des hébergeurs.
+    \item Prévenir les équipes de surveillance, pour qu'un scan autorisé ne
+          déclenche pas une réponse à incident.
+    \item Produire les exports demandés, avec leur date et leur empreinte.
+    \item Traiter les constats par ordre de gravité, et documenter chaque
+          correction pour l'audit de suivi.
+\end{enumerate}
+\end{boxmetier}
+
+\begin{boxmetier}{Auditeur SI}
+\textbf{Lire un export de configuration}
+\begin{enumerate}
+    \item Vérifier la date, l'équipement et l'empreinte de l'export.
+    \item Lister les services exposés et les comparer à la configuration de
+          référence.
+    \item Chercher les comptes par défaut et les protocoles en clair
+          (Telnet, FTP, HTTP d'administration).
+    \item Reconstituer les flux autorisés par les règles, et les comparer à
+          la matrice de flux.
+    \item Coter chaque contrôle par centre, avant toute agrégation.
+\end{enumerate}
+\end{boxmetier}
+
+% ============================================================================
+
+\separateur
+
+\begin{boxresume}
+\textbf{Ce qu'il faut retenir de ce chapitre~:}
+\begin{itemize}
+    \item \textbf{Trois audits de sécurité}~: légal (loi n°~2010/012),
+          d'un SMSI (ISO/IEC~27001 et 27007), technique~; ils se
+          complètent.
+    \item \textbf{Le SMSI est une chaîne}~: périmètre, risques, traitement,
+          mesures, évaluation~; une mesure déclarée sans preuve de
+          fonctionnement est \NEK{}.
+    \item \textbf{Cinq sous-domaines d'infrastructure}~: segmentation,
+          durcissement, protocoles, vulnérabilités, journalisation.
+    \item \textbf{La segmentation se prouve} en comparant flux autorisés et
+          flux observés.
+    \item \textbf{Coter par site avant d'agréger}~: une moyenne peut cacher
+          deux centres hors politique.
+    \item \textbf{Aucun test sans autorisation écrite}~: périmètre, méthodes,
+          fenêtres, contacts, sort des résultats (art.~69 et~70).
+\end{itemize}
+\end{boxresume}
+
+\bigskip
+
+\begin{boxexo}[title={\ding{45}\quad Exercice~16.1. Quel audit~? \niveaubase}]
+Pour chaque demande, indiquez l'audit de sécurité correspondant.
+\begin{enumerate}[(a)]
+    \item L'ANTIC annonce son passage annuel à la BANQUE SANAGA.
+    \item Le RSSI veut savoir si les règles des pare-feu de Garoua
+          correspondent à la matrice de flux.
+    \item La BANQUE SANAGA veut un certificat pour son centre de données.
+    \item Le comité d'audit demande si les écarts du dernier audit interne
+          du SMSI ont été clos.
+\end{enumerate}
+\end{boxexo}
+
+\begin{boxexo}[title={\ding{45}\quad Exercice~16.2. Matrice de flux \niveaumoyen}]
+La politique de LiZbiZ autorise~: Internet vers DMZ en 443~; DMZ vers
+applicatif en 8443~; utilisateurs vers applicatif en 8443~; administration
+vers toutes les zones en 22. L'export du pare-feu de Bafoussam montre en
+outre~: utilisateurs vers applicatif en 1433 et en 3389~; Internet vers
+administration en 23.
+\begin{enumerate}[(a)]
+    \item Dressez la matrice des flux autorisés et observés.
+    \item Classez les écarts par gravité, en justifiant.
+    \item Quelle cote retenir pour IN.1 et pour IN.3 à Bafoussam~?
+    \item Rédigez la constatation de l'observation la plus grave.
+\end{enumerate}
+\end{boxexo}
+
+\begin{boxexo}[title={\ding{45}\quad Exercice~16.3. La note d'autorisation \niveauexpert}]
+AUDIX CONSEIL doit réaliser un scan de vulnérabilités des quatre centres de
+LiZbiZ. Le centre de Garoua est hébergé par un prestataire local.
+\begin{enumerate}[(a)]
+    \item Rédigez la note d'autorisation.
+    \item Qui doit la signer pour Garoua, et pourquoi~?
+    \item Le DSI propose d'ajouter un « test de charge » de l'application.
+          Que répondez-vous, au regard de l'article~70~?
+    \item Comment les résultats du scan deviennent-ils des preuves
+          opposables~?
+\end{enumerate}
+\end{boxexo}
+
+\bigskip
+
+\begin{boxinfo}
+\textbf{Transition.} Une infrastructure sûre doit aussi durer. Le
+Chapitre~\ref{chap:audit-continuite} audite la production, la continuité
+et les tiers~: exploitation, sauvegardes, restaurations, plans de
+continuité et prestataires.
+\end{boxinfo}

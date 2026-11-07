@@ -1,0 +1,406 @@
+% ============================================================================
+% Fichier  : partie5/P05_C20_auditer_ia.tex
+% Titre    : Auditer l'Intelligence Artificielle, Auditer avec Elle
+% Auteur   : MINKA MI NGUIDJOÏ Thierry Emmanuel
+% Version  : 1.0 -- octobre 2026
+% ============================================================================
+% Sources : cours GCI (MSN-2S3-MSI03), chapitre 19 (gouvernance de l'IA,
+% six risques, ratio d'impact et seuil de 0,8 présenté comme signal sans
+% valeur juridique au Cameroun) ; ISO/IEC 42001:2023 ; NIST AI RMF 1.0
+% (quatre fonctions) ; Recommandation de l'UNESCO (2021) ; article A0
+% (hal-05701007), section « Le défi de l'IA générative » : outil transversal
+% d'opérationnalisation des piliers, non sixième pilier, position
+% révisable ; ISO/IEC 27037:2012 et cours TPIN (chaîne de conservation,
+% loi n° 2010/012, art. 52 à 59). Modèle de notation des microcrédits de la
+% BANQUE SANAGA : construit pour ce chapitre.
+% ============================================================================
+
+\chapter{Auditer l'Intelligence Artificielle, Auditer avec Elle}
+\label{chap:audit-ia}
+\chaptermark{Auditer l'IA}
+
+\epigraph{%
+    « Un modèle qui décide doit pouvoir être audité.\\
+    Un modèle qui aide l'auditeur ne décide de rien. »%
+}{Règle du cours}
+
+\niveauChapitre{Expert}{%
+    Maîtrise du Chapitre~\ref{chap:audit-continu} (analyse de données) et
+    du Chapitre~\ref{chap:audit-projets} (changements, mise en production)%
+}
+
+\begin{boxobjectifs}
+\begin{itemize}
+    \item Identifier, du point de vue de l'auditeur, les risques d'un
+          système d'IA~: biais, explicabilité, dérive.
+    \item Construire le programme d'audit d'un modèle, et mesurer un biais.
+    \item Évaluer l'apport et les limites de l'IA générative dans la
+          mission, et fixer ses règles d'usage.
+    \item Passer d'un constat d'audit à une preuve utilisable en justice~:
+          la chaîne de conservation.
+\end{itemize}
+\end{boxobjectifs}
+
+\bigskip
+
+% ============================================================================
+\section*{Question directrice : qui audite la machine, et avec quoi~?}
+% ============================================================================
+
+Depuis 2025, les agences de la BANQUE SANAGA accordent les microcrédits à
+l'aide d'un modèle de notation fourni par un prestataire. Le comité
+d'audit s'inquiète~: les refus semblent plus fréquents dans certaines
+régions, et le taux de défaut augmente. Il demande à Mme~EKAMBI d'auditer
+le modèle.
+
+Chez LiZbiZ, un auditeur junior d'AUDIX CONSEIL a résumé les quarante
+procédures de l'entreprise avec un assistant d'IA générative. Et les
+constats sur les ajustements de stock de M.~FOUDA, transmis par le
+commissaire aux comptes, intéressent désormais le ministère public.
+
+Ce chapitre audite un système d'IA (sections~\ref{sec:c20-risques}
+et~\ref{sec:c20-programme}), encadre l'usage de l'IA générative par
+l'auditeur (section~\ref{sec:c20-avec}), puis montre comment un constat
+devient une preuve (section~\ref{sec:c20-preuve}).
+
+\separateur
+
+% ============================================================================
+\section{Ce que l'IA Change pour l'Auditeur}
+\label{sec:c20-risques}
+% ============================================================================
+
+Le cours GCI (MSN-2S3-MSI03, chapitre~19) présente la gouvernance de
+l'IA~: ses trois traits (un système qui apprend des données, s'explique
+mal et évolue), ses six risques et ses cadres de référence. L'auditeur en
+retient trois conséquences.
+
+\begin{itemize}
+    \item \textbf{Les règles ne sont pas écrites}~: dans une application
+          classique, le critère est dans le code (un seuil, un calcul). Dans
+          un modèle, il est appris. L'auditeur ne lit pas la règle~; il
+          observe les décisions.
+    \item \textbf{Le contrôle se déplace vers les données et la
+          surveillance}~: provenance et représentativité des données
+          d'entraînement, mesure des écarts entre groupes, suivi de la
+          performance en production.
+    \item \textbf{Chaque réentraînement est un changement}~: un modèle
+          réentraîné est un nouveau modèle, qui relève de la gestion des
+          changements et d'une nouvelle validation
+          (Chapitre~\ref{chap:audit-projets}).
+\end{itemize}
+
+\begin{tableaucours}{L{3.6cm}L{2.0cm}L{6.6cm}}{%
+    \tableauHeader{Référence} &
+    \tableauHeader{Nature} &
+    \tableauHeader{Usage pour l'auditeur}
+}
+ISO/IEC 42001 (2023) & Norme certifiable & Exigences d'un système de
+management de l'IA~: critères pour un audit de type SMSI
+(Chapitre~\ref{chap:audit-securite})~\cite{iso42001_2023} \\
+NIST AI RMF 1.0 (2023) & Cadre & Quatre fonctions~: gouverner,
+cartographier, mesurer, gérer~; trame de décomposition~\cite{nist2023airmf} \\
+UNESCO (2021) & Recommandation & Principes~: équité, transparence et
+explicabilité, responsabilité, surveillance humaine~\cite{unesco2021ethique} \\
+\end{tableaucours}
+\vspace{-0.8em}
+\begin{center}{\small\itshape Tableau~20.1. Trois références pour auditer
+un système d'IA}\end{center}
+
+% ============================================================================
+\section{Le Programme d'Audit d'un Modèle}
+\label{sec:c20-programme}
+% ============================================================================
+
+\subsection{Cinq sous-domaines}
+
+\begin{tableaucours}{cL{2.8cm}L{5.6cm}L{2.6cm}}{%
+    \tableauHeader{Code} &
+    \tableauHeader{Sous-domaine} &
+    \tableauHeader{Contrôles} &
+    \tableauHeader{AI RMF}
+}
+IA.1 & Gouvernance & Inventaire des modèles~; propriétaire métier
+désigné~; approbation avant usage & Gouverner \\
+IA.2 & Données & Provenance et représentativité documentées~; licéité
+du traitement (loi n°~2024/017, Chapitre~\ref{chap:droit}) &
+Cartographier \\
+IA.3 & Conception et validation & Validation par une équipe indépendante
+du concepteur~; motifs de décision communicables à la personne concernée
+& Mesurer \\
+IA.4 & Biais et équité & Mesure périodique des écarts entre groupes~;
+revue des variables corrélées à un groupe protégé & Mesurer \\
+IA.5 & Exploitation et dérive & Performance suivie en production~;
+réentraînement soumis à la gestion des changements~; recours humain &
+Gérer \\
+\end{tableaucours}
+\vspace{-0.8em}
+\begin{center}{\small\itshape Tableau~20.2. Décomposition de l'audit d'un
+système d'IA}\end{center}
+
+\subsection{Mesurer un biais, mesurer une dérive}
+
+Le cours GCI définit le \emph{ratio d'impact}~: taux de décisions
+favorables du groupe le moins favorisé, divisé par celui du groupe le plus
+favorisé. Une pratique issue du droit américain du travail tient pour
+suspect un ratio inférieur à~0,8~; ce seuil n'a pas de valeur juridique au
+Cameroun, il sert de signal d'alerte. La dérive se mesure en comparant la
+performance prévue lors de la validation à la performance constatée en
+production.
+
+\begin{boxscenario}{Opération SANAGA. Le modèle de notation}
+\textbf{Tests de l'auditrice} sur les 6~240~demandes de microcrédit du
+premier semestre~2026 (extraction tracée, Chapitre~\ref{chap:preuve}).
+
+\medskip
+\textbf{Biais.} Taux d'acceptation de 42~\% dans les agences du Nord,
+contre 70~\% dans celles du Littoral~: ratio d'impact
+$= 0{,}42 / 0{,}70 = 0{,}60$, sous le seuil d'alerte. Parmi les variables
+du modèle figure l'agence de dépôt, corrélée à la région.
+
+\medskip
+\textbf{Dérive.} Le dossier de validation prévoyait un taux de défaut de
+6~\%~; il atteint 11~\% sur les crédits accordés depuis janvier. Le modèle
+a été réentraîné en décembre~2025 par le prestataire, sans passer par la
+gestion des changements de la banque.
+
+\medskip
+\textbf{Analyse} (confiance moyenne). L'écart entre régions peut refléter
+en partie des différences réelles de risque~; seule une analyse à risque
+égal, sans la variable «~agence~», permettra de conclure. La dérive, elle,
+est établie, et coïncide avec un réentraînement non contrôlé.
+\end{boxscenario}
+
+\begin{boxlecture}{Modèle de notation, SANAGA}
+Dix contrôles, deux par sous-domaine~:
+
+\medskip
+\begin{tableaucours}{L{7.0cm}c}{%
+    \tableauHeader{Contrôle} &
+    \tableauHeader{Cote}
+}
+IA.1 Modèle inscrit à l'inventaire & \OUI{} \\
+IA.1 Propriétaire métier désigné & \NON{} \\
+IA.2 Provenance des données documentée & \OUI{} \\
+IA.2 Licéité du traitement analysée & \NEK{} \\
+IA.3 Validation indépendante du concepteur & \NON{} \\
+IA.3 Motifs de refus communiqués au client & \NON{} \\
+IA.4 Écarts entre régions mesurés périodiquement & \NON{} \\
+IA.4 Variables corrélées revues & \NEK{} \\
+IA.5 Taux de défaut suivi chaque mois & \OUI{} \\
+IA.5 Réentraînement soumis aux changements & \NON{} \\
+\end{tableaucours}
+
+\medskip
+\textbf{Constatation.} $\mu = 0{,}30$~; $U = 0{,}20$~; $H \approx 1{,}49$~bit.
+
+\medskip
+\textbf{Analyse} (confiance moyenne). Non-conformité opaque~: la banque
+suit le taux de défaut, mais ne gouverne pas le modèle. Les deux \NEK{}
+portent sur des pièces que le prestataire n'a pas remises~; sans droit
+d'audit au contrat (Chapitre~\ref{chap:audit-continuite}), la banque ne
+peut pas les obtenir seule. Recommandation~: suspendre la variable
+«~agence~» en attendant l'analyse à risque égal, et soumettre tout
+réentraînement à la gestion des changements.
+
+\medskip
+\hfill\lecture{0{,}30}{0{,}20}{1{,}49}
+\end{boxlecture}
+
+% ============================================================================
+\section{Auditer avec l'IA Générative}
+\label{sec:c20-avec}
+% ============================================================================
+
+\subsection{Un outil transversal}
+
+L'article A0 propose de traiter l'IA générative comme un \emph{outil
+transversal} au service des piliers de l'auditologie, et non comme un
+sixième pilier~: elle augmente la capacité de traitement de l'auditeur et
+le débit de l'information qui lui parvient, sans changer la nature de ce
+qu'il cherche. L'article tient cette position pour révisable~: l'arrivée
+d'agents hybrides, humains et artificiels, est un sujet de recherche
+ouvert~\cite{minka2026auditologie}.
+
+\begin{tableaucours}{L{3.4cm}L{4.4cm}L{4.4cm}}{%
+    \tableauHeader{Usage} &
+    \tableauHeader{Apport} &
+    \tableauHeader{Limite}
+}
+Résumer des procédures & Gain de temps en prise de connaissance &
+Affirmations inventées~; nuances perdues \\
+Proposer des requêtes SQL & Accélère les tests sur données & Requête
+fausse mais plausible~; à vérifier sur un cas connu \\
+Rédiger des brouillons & Structure, style & Mélange constat et analyse~;
+qualification hâtive \\
+Classer des tickets, des commentaires & Traite de grands volumes &
+Classement non reproductible d'une exécution à l'autre \\
+\end{tableaucours}
+\vspace{-0.8em}
+\begin{center}{\small\itshape Tableau~20.3. Usages de l'IA générative dans
+la mission}\end{center}
+
+\begin{boxscenario}{Opération LIZBIZ. Le résumé automatique}
+\textbf{Faits.} AUDIX CONSEIL vérifie, procédure en main, 40~affirmations
+tirées du résumé produit par l'assistant~: 34 sont exactes, 4 inexactes,
+2 invérifiables. L'une des inexactitudes affirme que les droits sont
+revus chaque trimestre~; la procédure prévoit une revue annuelle.
+
+\medskip
+\textbf{Analyse} (confiance élevée). Un auditeur qui aurait repris le
+résumé aurait coté \OUI{} un contrôle qui n'existe pas. Une affirmation de
+l'assistant a la valeur d'une déclaration orale~: au mieux, une piste
+(Chapitre~\ref{chap:preuve}).
+\end{boxscenario}
+
+\begin{boxmetier}{Auditeur SI}
+\textbf{Utiliser l'IA générative dans une mission}
+\begin{enumerate}
+    \item Ne soumettre à un service externe aucune donnée de la mission
+          sans l'accord écrit du commanditaire~: le secret de l'auditeur
+          (Chapitre~\ref{chap:droit}) s'applique aussi à ce que l'on envoie
+          à un outil.
+    \item Traiter chaque sortie comme une piste~: toute affirmation est
+          vérifiée sur la pièce source avant d'être cotée.
+    \item Tester toute requête ou formule proposée sur un cas dont on
+          connaît le résultat.
+    \item Consigner dans le dossier l'outil, sa version, la demande et
+          l'usage fait du résultat.
+    \item Ne jamais lever un \NEK{} sur la foi d'une sortie de l'outil.
+\end{enumerate}
+\end{boxmetier}
+
+% ============================================================================
+\section{Du Constat d'Audit à la Preuve Judiciaire}
+\label{sec:c20-preuve}
+% ============================================================================
+
+\subsection{Deux exigences de preuve}
+
+Un constat d'audit est opposable s'il peut être défendu devant un tiers
+(axiome~6). Une preuve judiciaire doit en outre convaincre un juge que la
+pièce n'a pas été altérée depuis sa collecte~: c'est l'objet de la
+\termecle{chaîne de conservation}\index{chaîne de conservation}, qui
+retrace, sans interruption, qui a détenu la pièce, quand et pour quoi
+faire. L'ISO/IEC~27037 donne les lignes directrices pour identifier,
+collecter, acquérir et préserver une preuve numérique~\cite{iso27037_2012}~;
+le cours TPIN (Théorie et Pratique de l'Investigation Numérique) les met en
+œuvre, en lien avec les articles~52 à~59 de la loi n°~2010/012.
+
+\subsection{Ce que fait l'auditeur, et ce qu'il ne fait pas}
+
+L'auditeur n'enquête pas~: il préserve ce qu'il a, et le remet. Un
+auditeur qui « complète » le dossier en interrogeant des suspects ou en
+extrayant de nouvelles données hors de sa mission fragilise la procédure.
+
+\begin{boxprocedure}
+\textbf{Remettre un constat à l'autorité judiciaire.}
+\begin{enumerate}
+    \item \textbf{Geler}~: ne plus modifier les fichiers concernés~; en
+          faire une copie de travail, l'original restant intact.
+    \item \textbf{Prouver l'intégrité}~: empreinte de chaque fichier,
+          vérifiée et consignée (Chapitre~\ref{chap:preuve}).
+    \item \textbf{Documenter la provenance}~: lettre d'extraction (source,
+          date, requête, paramètres), papiers de travail, observation.
+    \item \textbf{Tenir le registre}~: chaque remise, chaque accès, avec la
+          date, la personne et l'empreinte vérifiée.
+    \item \textbf{Remettre}~: à l'autorité qui le demande, contre récépissé,
+          sans commentaire qualifiant les faits (Chapitre~\ref{chap:droit}).
+\end{enumerate}
+\end{boxprocedure}
+
+\begin{boxscenario}{Opération LIZBIZ. Le dossier des ajustements}
+Le ministère public demande les pièces relatives aux ajustements de stock
+de M.~FOUDA. AUDIX CONSEIL remet l'extraction PT-17 et son empreinte, la
+lettre d'extraction, le papier de travail du test et l'observation, avec
+un registre qui retrace chaque accès depuis l'extraction. Il ne remet pas
+le brouillon de l'auditeur junior qui parlait de « fraude »~: ce n'est
+pas une pièce de la mission, et il qualifiait les faits sans en avoir
+le droit.
+\end{boxscenario}
+
+\begin{boxmetier}{Responsable GRC}
+\textbf{Tenir l'inventaire des modèles d'IA}
+\begin{enumerate}
+    \item Recenser chaque modèle utilisé dans une décision qui touche des
+          clients, des agents ou des comptes.
+    \item Pour chacun~: propriétaire métier, fournisseur, données utilisées,
+          date de la dernière validation et du dernier réentraînement.
+    \item Coter chaque modèle sur l'échelle commune des risques.
+    \item Exiger, au contrat de tout fournisseur de modèle, le droit d'audit
+          et la remise du dossier de validation.
+\end{enumerate}
+\end{boxmetier}
+
+% ============================================================================
+
+\separateur
+
+\begin{boxresume}
+\textbf{Ce qu'il faut retenir de ce chapitre~:}
+\begin{itemize}
+    \item \textbf{Dans un modèle, la règle est apprise}~: l'auditeur observe
+          les décisions, les données et la surveillance.
+    \item \textbf{Cinq sous-domaines}~: gouvernance, données, conception et
+          validation, biais et équité, exploitation et dérive.
+    \item \textbf{Le ratio d'impact} signale un biais, sans le prouver~; la
+          dérive compare le prévu et le constaté~; un réentraînement est un
+          changement.
+    \item \textbf{L'IA générative est un outil transversal} (A0)~: ses
+          sorties sont des pistes, jamais des preuves, et aucune donnée de
+          mission ne lui est confiée sans accord.
+    \item \textbf{Une preuve judiciaire} exige une chaîne de conservation
+          ininterrompue~; l'auditeur préserve et remet, il n'enquête pas.
+\end{itemize}
+\end{boxresume}
+
+\bigskip
+
+\begin{boxexo}[title={\ding{45}\quad Exercice~20.1. Rattacher les contrôles \niveaubase}]
+Rattachez chaque contrôle à un sous-domaine (IA.1 à IA.5).
+\begin{enumerate}[(a)]
+    \item Un client refusé peut demander l'examen de son dossier par un
+          agent.
+    \item Le modèle a été validé par une équipe qui ne l'a pas construit.
+    \item Les données d'entraînement couvrent les douze régions.
+    \item Chaque modèle a un propriétaire au sein des métiers.
+    \item Le taux d'acceptation est comparé chaque trimestre entre régions.
+\end{enumerate}
+\end{boxexo}
+
+\begin{boxexo}[title={\ding{45}\quad Exercice~20.2. Biais et dérive \niveaumoyen}]
+Sur le second semestre, le modèle de la BANQUE SANAGA accepte 48~\% des
+demandes dans le Nord et 64~\% dans le Littoral~; le taux de défaut
+constaté est de 9~\%.
+\begin{enumerate}[(a)]
+    \item Calculez le ratio d'impact et comparez-le au premier semestre.
+    \item Peut-on conclure que le biais a disparu~? Que faut-il de plus~?
+    \item La dérive est-elle corrigée~? Justifiez.
+    \item Quelles cotations des dix contrôles changeriez-vous, et pourquoi~?
+\end{enumerate}
+\end{boxexo}
+
+\begin{boxexo}[title={\ding{45}\quad Exercice~20.3. Une charte d'usage de l'IA générative \niveauexpert}]
+AUDIX CONSEIL veut une charte d'usage de l'IA générative pour ses
+auditeurs.
+\begin{enumerate}[(a)]
+    \item Rédigez-en les règles, en vous appuyant sur l'encadré « Utiliser
+          l'IA générative dans une mission ».
+    \item Quels articles de la loi n°~2010/012 fondent la règle sur les
+          données confiées à un service externe~?
+    \item Comment rendre reproductible un classement de tickets produit par
+          un modèle génératif~?
+    \item Discutez la position d'A0~: l'IA générative est-elle un outil, ou
+          change-t-elle la nature de l'auditeur~?
+\end{enumerate}
+\end{boxexo}
+
+\bigskip
+
+\begin{boxinfo}
+\textbf{Transition.} Le cours a mobilisé, chapitre après chapitre, les
+axiomes et les mesures de l'auditologie. La Partie~\ref{part:recherche}
+les présente pour eux-mêmes~: les axiomes et les piliers
+(Chapitre~\ref{chap:auditologie}), puis la mesure de l'incertitude, de la
+stratégie et de la trajectoire (Chapitre~\ref{chap:incertitude}).
+\end{boxinfo}

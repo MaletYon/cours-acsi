@@ -1,0 +1,580 @@
+% ============================================================================
+% Fichier  : partie1/P01_C02_controle_interne.tex
+% Titre    : Le Contrôle Interne et ses Composantes
+% Auteur   : MINKA MI NGUIDJOÏ Thierry Emmanuel
+% Version  : 1.0 -- octobre 2026
+% ============================================================================
+% Sources : COSO, Internal Control -- Integrated Framework (2013), cinq
+% composantes et dix-sept principes paraphrasés ; règlement COBAC R-2016/04,
+% articles 1 et 2 (texte relevé sur une base réglementaire en ligne pour le
+% cours GCI, à collationner avec le texte officiel) ; articles A0 et A1 pour
+% la lecture µ, U, H.
+% ============================================================================
+
+\chapter{Le Contrôle Interne et ses Composantes}
+\label{chap:controle-interne}
+
+\epigraph{%
+    « Un contrôle qui ne laisse pas de trace\\
+    n'existe que dans la procédure qui le décrit. »%
+}{Principe de l'auditeur}
+
+\niveauChapitre{Fondamental}{%
+    Maîtrise du Chapitre~\ref{chap:audit-auditologie} (audit, contrôle,
+    trois lignes)%
+}
+
+\begin{boxobjectifs}
+\begin{itemize}
+    \item Définir le contrôle interne et ses trois catégories d'objectifs.
+    \item Énoncer les cinq composantes et les dix-sept principes du
+          COSO~2013.
+    \item Classer un contrôle~: préventif ou détectif, manuel ou automatisé,
+          général ou d'application.
+    \item Appliquer la séparation des tâches et la règle des quatre yeux à
+          une matrice des droits.
+    \item Concevoir un dispositif de contrôle interne à l'aide d'une matrice
+          des risques et des contrôles.
+    \item Évaluer la conception et l'efficacité d'un contrôle, et coter le
+          résultat \OUI{}, \NON{} ou \NEK{}.
+\end{itemize}
+\end{boxobjectifs}
+
+\bigskip
+
+% ============================================================================
+\section*{Question directrice : où passaient les 186 millions~?}
+% ============================================================================
+
+L'écart de stock de LiZbiZ (Chapitre~\ref{chap:prologue}) ne s'explique
+pas par un seul acte. Les premières investigations d'AUDIX CONSEIL montrent
+que, dans l'application intégrée, un même magasinier peut enregistrer une
+réception de marchandises \emph{et} ajuster le stock après inventaire. Le
+responsable informatique dispose de tous les droits, y compris celui de
+valider un paiement. Personne ne revoit ces droits.
+
+Aucune règle n'interdisait ces cumuls~: LiZbiZ n'a jamais conçu son
+contrôle interne, il s'est formé au fil des urgences. Ce chapitre définit
+le contrôle interne (section~\ref{sec:c02-definition}), en présente le cadre
+de référence (section~\ref{sec:c02-coso}), classe les contrôles
+(section~\ref{sec:c02-types}), applique la séparation des tâches
+(section~\ref{sec:c02-sod}), puis montre comment concevoir et évaluer un
+dispositif (sections~\ref{sec:c02-concevoir} et~\ref{sec:c02-evaluer}).
+
+\separateur
+
+% ============================================================================
+\section{Qu'est-ce que le Contrôle Interne~?}
+\label{sec:c02-definition}
+% ============================================================================
+
+\subsection{Une définition}
+
+Le cadre de référence le plus répandu est celui du \sigle{COSO}
+(\textit{Committee of Sponsoring Organizations of the Treadway Commission}),
+dont la version actuelle date de 2013~\cite{coso2013ic}.
+
+\begin{boxdef}
+\termecle{Contrôle interne}\index{contrôle interne}~: processus mis en œuvre
+par l'organe de gouvernance, la direction et l'ensemble du personnel, destiné
+à fournir une assurance raisonnable quant à la réalisation d'objectifs liés
+aux opérations, à l'information (\textit{reporting}) et à la conformité.
+\end{boxdef}
+{\small\itshape Définition reformulée d'après le COSO~2013~\cite{coso2013ic}.}
+
+\medskip
+
+Quatre idées sont contenues dans cette définition.
+\begin{enumerate}
+    \item \textbf{Un processus}, pas un document~: le contrôle interne vit
+          dans les opérations quotidiennes.
+    \item \textbf{L'affaire de tous}~: il est porté par la direction et le
+          personnel, pas seulement par le contrôleur interne.
+    \item \textbf{Une assurance raisonnable}, jamais absolue
+          (Chapitre~\ref{chap:audit-auditologie}).
+    \item \textbf{Des objectifs}~: on ne contrôle pas « en général », mais en
+          vue d'objectifs précis.
+\end{enumerate}
+
+\subsection{Trois catégories d'objectifs}
+
+\begin{tableaucours}{L{2.8cm}L{5.0cm}L{4.4cm}}{%
+    \tableauHeader{Catégorie} &
+    \tableauHeader{Question} &
+    \tableauHeader{Exemple chez LiZbiZ}
+}
+Opérations & Les activités sont-elles efficaces et efficientes, les actifs
+protégés~? & Le stock enregistré correspond au stock réel \\
+Information & L'information financière et non financière est-elle
+fiable~? & Les états financiers reflètent la valeur du stock \\
+Conformité & Les lois et règlements sont-ils respectés~? & Les données
+personnelles des clients sont protégées (loi n°~2024/017) \\
+\end{tableaucours}
+\vspace{-0.8em}
+\begin{center}{\small\itshape Tableau~2.1. Les objectifs du contrôle
+interne}\end{center}
+
+% ============================================================================
+\section{Le Cadre COSO 2013}
+\label{sec:c02-coso}
+% ============================================================================
+
+\subsection{Cinq composantes, dix-sept principes}
+
+Le COSO organise le contrôle interne en \textbf{cinq composantes}, détaillées
+en \textbf{dix-sept principes}. Un dispositif n'est efficace que si les cinq
+composantes sont présentes, fonctionnent et agissent ensemble.
+
+\begin{tableaucours}{L{3.2cm}cL{8.0cm}}{%
+    \tableauHeader{Composante} &
+    \tableauHeader{N°} &
+    \tableauHeader{Principe (reformulé)}
+}
+Environnement de contrôle & 1 & Afficher un engagement envers l'intégrité et
+l'éthique \\
+ & 2 & Faire superviser le contrôle interne par un organe de gouvernance
+indépendant de la direction \\
+ & 3 & Définir les structures, les rattachements, les pouvoirs et les
+responsabilités \\
+ & 4 & Attirer, développer et retenir des personnes compétentes \\
+ & 5 & Faire rendre compte chacun de ses responsabilités de contrôle \\
+Évaluation des risques & 6 & Fixer des objectifs suffisamment clairs pour
+identifier les risques \\
+ & 7 & Identifier et analyser les risques qui menacent ces objectifs \\
+ & 8 & Prendre en compte le risque de fraude \\
+ & 9 & Identifier et analyser les changements significatifs \\
+Activités de contrôle & 10 & Choisir et mettre en place des activités de
+contrôle qui réduisent les risques \\
+ & 11 & Choisir et mettre en place des contrôles généraux sur les
+technologies \\
+ & 12 & Déployer les contrôles par des politiques et des procédures \\
+Information et communication & 13 & Produire et utiliser une information
+pertinente et de qualité \\
+ & 14 & Communiquer en interne sur le contrôle interne \\
+ & 15 & Communiquer avec les tiers \\
+Pilotage & 16 & Conduire des évaluations continues ou ponctuelles \\
+ & 17 & Évaluer les déficiences et les communiquer à temps \\
+\end{tableaucours}
+\vspace{-0.8em}
+\begin{center}{\small\itshape Tableau~2.2. Les composantes et les principes
+du COSO~2013 (notre reformulation)}\end{center}
+
+\begin{boxinfo}
+\textbf{Le principe~11 concerne directement l'auditeur des SI.} Le COSO
+demande de choisir et de mettre en place des contrôles généraux sur les
+technologies~: accès, changements, exploitation. C'est le cœur des
+contrôles généraux informatiques (section~\ref{sec:c02-types}).
+\end{boxinfo}
+
+\subsection{Le diagnostic de LiZbiZ}
+
+\begin{boxscenario}{Opération LIZBIZ. Les cinq composantes}
+\textbf{Constatations} (entretiens et documents remis à AUDIX CONSEIL)~:
+\begin{itemize}
+    \item \emph{Environnement de contrôle}~: pas de comité d'audit~; les
+          pouvoirs de validation ne sont écrits nulle part.
+    \item \emph{Évaluation des risques}~: aucune cartographie des risques~;
+          le risque de fraude n'a jamais été examiné.
+    \item \emph{Activités de contrôle}~: des contrôles existent dans les
+          agences, mais varient d'un site à l'autre.
+    \item \emph{Information et communication}~: les écarts d'inventaire ne
+          remontent à la direction qu'une fois par an.
+    \item \emph{Pilotage}~: aucune évaluation du dispositif depuis la
+          création de l'entreprise.
+\end{itemize}
+
+\textbf{Analyse} (confiance moyenne). Les activités de contrôle ne peuvent
+pas compenser l'absence des quatre autres composantes. L'écart de stock est
+le symptôme d'un dispositif qui n'a jamais été conçu.
+\end{boxscenario}
+
+% ============================================================================
+\section{Classer les Contrôles}
+\label{sec:c02-types}
+% ============================================================================
+
+\subsection{Selon le moment}
+
+\begin{boxdef}
+\termecle{Contrôle préventif}\index{contrôle préventif}~: empêche
+l'anomalie de se produire (une validation obligatoire avant paiement).
+
+\medskip
+\termecle{Contrôle détectif}\index{contrôle détectif}~: repère l'anomalie
+après coup (le rapprochement mensuel du stock et des inventaires).
+
+\medskip
+\termecle{Contrôle correctif}\index{contrôle correctif}~: corrige l'anomalie
+et ses effets (la restauration d'une sauvegarde après une suppression).
+\end{boxdef}
+
+\subsection{Selon le mode d'exécution}
+
+Un contrôle peut être \textbf{manuel} (une signature sur un bon de sortie),
+\textbf{automatisé} (l'application refuse un ajustement de stock non
+validé) ou \textbf{semi-automatisé} (l'application produit une liste
+d'anomalies qu'une personne examine). Un contrôle automatisé est fiable et
+constant, à une condition~: que personne ne puisse le désactiver ou le
+modifier sans contrôle. D'où la distinction suivante.
+
+\subsection{Contrôles généraux et contrôles d'application}
+
+\begin{boxdef}
+\termecle{Contrôles généraux informatiques}\index{contrôles généraux
+informatiques} (\textit{IT general controls})~: contrôles qui s'appliquent à
+l'environnement dans lequel les applications sont développées, exploitées et
+maintenues~: gestion des accès, gestion des changements, exploitation
+(sauvegardes, traitements, incidents).
+
+\medskip
+\termecle{Contrôles d'application}\index{contrôles d'application}~:
+contrôles intégrés à une application, qui agissent sur le traitement des
+opérations~: contrôles des entrées (validation des données), des traitements
+(exactitude des calculs) et des sorties (complétude des états).
+\end{boxdef}
+
+\begin{boxalert}
+\textbf{Violation typique.} L'auditeur constate que l'application refuse tout
+paiement d'un montant supérieur au plafond autorisé, et conclut que le
+contrôle est efficace. Or le responsable informatique peut modifier le
+plafond directement dans la base, sans trace.
+
+\smallskip
+\textbf{Règle~:} un contrôle d'application ne vaut que si les contrôles
+généraux qui le protègent (accès, changements) sont eux-mêmes efficaces.
+L'auditeur les teste en premier.
+\end{boxalert}
+
+% ============================================================================
+\section{Séparer les Tâches}
+\label{sec:c02-sod}
+% ============================================================================
+
+\subsection{Le principe}
+
+\begin{boxdef}
+\termecle{Séparation des tâches}\index{séparation des tâches}
+(\textit{segregation of duties}, \sigle{SoD})~: répartition, entre des
+personnes différentes, des fonctions dont le cumul permettrait de commettre
+et de dissimuler une erreur ou une fraude. On sépare en principe quatre
+fonctions~: \emph{autoriser} une opération, l'\emph{enregistrer},
+\emph{garder} l'actif concerné, et \emph{contrôler}.
+
+\medskip
+\termecle{Règle des quatre yeux}\index{règle des quatre yeux}~: toute
+opération sensible est réalisée par une personne et validée par une autre.
+\end{boxdef}
+
+\subsection{La matrice des droits de LiZbiZ}
+
+\begin{boxscenario}{Opération LIZBIZ. Qui peut faire quoi~?}
+AUDIX CONSEIL extrait de l'application intégrée les droits de six
+utilisateurs sur cinq fonctions sensibles~: F1 créer ou modifier un
+fournisseur~; F2 saisir une commande d'achat~; F3 enregistrer une réception
+en entrepôt~; F4 ajuster le stock après inventaire~; F5 valider un paiement
+fournisseur.
+
+\medskip
+\begin{tableaucours}{L{4.6cm}ccccc}{%
+    \tableauHeader{Utilisateur (fonction)} &
+    \tableauHeader{F1} & \tableauHeader{F2} & \tableauHeader{F3} &
+    \tableauHeader{F4} & \tableauHeader{F5}
+}
+M.~KOUNOU (resp. informatique) & × & × & × & × & × \\
+M.~MBIDA (acheteur) & × & × & & & \\
+M.~FOUDA (magasinier, Douala) & & & × & × & \\
+Mme~OWONA (comptable) & × & & & & × \\
+M.~NANGA (chef d'agence, Garoua) & & × & × & & \\
+Mme~MBALLA (DAF) & & & & & × \\
+\end{tableaucours}
+
+\medskip
+\textbf{Paires incompatibles retenues.} F1 et F5 (créer un fournisseur
+fictif, puis le payer)~; F2 et F3 (commander, puis attester soi-même une
+réception qui n'a pas eu lieu)~; F3 et F4 (enregistrer une réception, puis
+« corriger » le stock pour masquer un manquant)~; F2 et F5 (commander, puis
+payer sa propre commande).
+
+\medskip
+\textbf{Constatation.} Quatre utilisateurs sur six cumulent au moins une
+paire incompatible~: M.~KOUNOU (toutes), M.~FOUDA (F3 et F4), Mme~OWONA
+(F1 et F5) et M.~NANGA (F2 et F3).
+
+\medskip
+\textbf{Analyse} (confiance élevée). Le cumul F3--F4 du magasinier de Douala
+suffit à expliquer qu'un manquant puisse disparaître des écritures. Le
+cumul total du responsable informatique est le plus grave~: il cumule les
+droits de gestion et le pouvoir technique de modifier les droits eux-mêmes.
+\end{boxscenario}
+
+\subsection{Quand on ne peut pas séparer}
+
+Dans une petite agence de trois personnes, une séparation complète est
+impossible. On recourt alors à des \termecle{contrôles
+compensatoires}\index{contrôle compensatoire}~: revue a posteriori par une
+personne extérieure à l'agence, rapprochement mensuel par le siège, journal
+des ajustements examiné par le contrôleur interne. Le contrôle compensatoire
+doit être écrit, exécuté et tracé, comme tout autre contrôle.
+
+% ============================================================================
+\section{Concevoir un Dispositif}
+\label{sec:c02-concevoir}
+% ============================================================================
+
+Mettre en place un contrôle interne, c'est relier chaque risque à un ou
+plusieurs contrôles, et organiser la preuve de leur exécution.
+
+\begin{enumerate}
+    \item \textbf{Fixer les objectifs} du processus (par exemple~: le stock
+          enregistré est exact et complet).
+    \item \textbf{Identifier les risques} qui menacent ces objectifs
+          (Chapitre~\ref{chap:risque}).
+    \item \textbf{Décrire le processus} et ses points de risque.
+    \item \textbf{Choisir les contrôles}~: préventifs d'abord, détectifs en
+          complément, automatisés lorsque c'est possible.
+    \item \textbf{Documenter} chaque contrôle dans une matrice des risques
+          et des contrôles.
+    \item \textbf{Tester} puis \textbf{piloter} le dispositif.
+\end{enumerate}
+
+\begin{boxprocedure}
+\textbf{La matrice des risques et des contrôles.} Pour que le dispositif soit
+auditable, chaque ligne de la matrice indique~:
+\begin{itemize}
+    \item le processus, l'objectif et le risque traité~;
+    \item le contrôle, sa nature (préventif ou détectif, manuel ou
+          automatisé) et sa fréquence~;
+    \item le responsable de l'exécution~;
+    \item \textbf{la preuve} que laisse chaque exécution (signature,
+          journal, état signé)~;
+    \item la date de la dernière évaluation et son résultat.
+\end{itemize}
+Un contrôle sans preuve d'exécution ne peut pas être évalué~: il doit être
+reconçu.
+\end{boxprocedure}
+
+\begin{boxmetier}{Contrôleur interne}
+\textbf{Mettre en place le contrôle des stocks chez LiZbiZ}
+\begin{enumerate}
+    \item Retirer à M.~FOUDA le droit F4~; confier les ajustements de stock
+          à une personne qui ne gère pas les réceptions.
+    \item Rendre l'ajustement soumis à validation (quatre yeux) au-delà d'un
+          seuil, par exemple 500~000~FCFA.
+    \item Retirer au responsable informatique tous les droits de gestion~;
+          tracer ses accès d'administration.
+    \item Instaurer un inventaire tournant mensuel dans chaque entrepôt, et
+          un rapprochement par le siège.
+    \item Consigner le tout dans la matrice des risques et des contrôles, et
+          prévoir une revue trimestrielle des droits.
+\end{enumerate}
+\end{boxmetier}
+
+% ============================================================================
+\section{Évaluer un Contrôle}
+\label{sec:c02-evaluer}
+% ============================================================================
+
+\subsection{Conception et efficacité}
+
+L'auditeur évalue un contrôle en deux temps.
+
+\begin{tableaucours}{L{3.2cm}L{4.6cm}L{4.4cm}}{%
+    \tableauHeader{Évaluation} &
+    \tableauHeader{Question} &
+    \tableauHeader{Comment}
+}
+Conception & Le contrôle, s'il fonctionne, réduit-il le risque~? &
+Entretien, lecture de la procédure, test de cheminement sur un cas \\
+Efficacité opérationnelle & Le contrôle a-t-il fonctionné comme prévu
+pendant toute la période~? & Test d'un échantillon d'exécutions et de leurs
+preuves \\
+\end{tableaucours}
+\vspace{-0.8em}
+\begin{center}{\small\itshape Tableau~2.3. Deux niveaux d'évaluation d'un
+contrôle}\end{center}
+
+Un contrôle mal conçu est inefficace, même s'il est exécuté à la lettre. Un
+contrôle bien conçu mais non exécuté ne protège de rien.
+
+\subsection{\NON{} ou \NEK{}~?}
+
+La cotation d'un contrôle demande une distinction que l'audit binaire ne
+fait pas.
+
+\begin{itemize}
+    \item \textbf{\NON{}}~: l'auditeur établit que le contrôle n'est pas
+          conforme au critère. Par exemple, le critère exige une validation
+          tracée de chaque ajustement, et l'extraction montre des
+          ajustements sans validation.
+    \item \textbf{\NEK{}}~: l'information disponible ne permet pas de
+          conclure, malgré des diligences normales. Par exemple, le journal
+          des ajustements n'a pas été remis, ou deux sources se contredisent
+          sans qu'on puisse les départager.
+\end{itemize}
+
+\begin{boxalert}
+\textbf{Violation typique.} Coter \NEK{} un contrôle dont le critère exige une
+trace, alors que l'auditeur a vérifié qu'aucune trace n'existe.
+
+\smallskip
+\textbf{Règle~:} l'absence d'une trace exigée par le critère est un \NON{}
+établi. \NEK{} est réservé au cas où l'auditeur ne peut pas savoir~; il
+s'accompagne toujours de la description des diligences effectuées.
+\end{boxalert}
+
+\subsection{Lire un domaine}
+
+\begin{boxlecture}{Contrôles des stocks de LiZbiZ}
+Douze contrôles de la gestion des stocks sont évalués sur la période de
+janvier à avril~2026~: 1~\OUI{}, 10~\NON{}, 1~\NEK{}.
+
+\medskip
+\textbf{Constatation.} $\mu = 1/12 \approx 0{,}08$~; $U = 1/12 \approx 0{,}08$~;
+$H \approx 0{,}82$~bit.
+
+\medskip
+\textbf{Analyse} (confiance élevée). La conformité est très faible, mais
+l'incertitude l'est aussi~: l'organisation sait que ses contrôles de stock
+ne fonctionnent pas. C'est une \emph{non-conformité connue}, qui appelle des
+correctifs directs, à l'inverse du domaine~D du prologue ($H \approx 1{,}24$),
+où il fallait d'abord comprendre.
+
+\medskip
+\hfill\lecture{0{,}08}{0{,}08}{0{,}82}
+\end{boxlecture}
+
+\subsection{Les limites du contrôle interne}
+
+Même bien conçu, un dispositif ne donne qu'une assurance raisonnable. Il
+peut être mis en échec par la collusion entre plusieurs personnes, par un
+dirigeant qui passe outre, par une erreur de jugement, ou parce que le coût
+d'un contrôle dépasserait le risque qu'il traite. L'auditeur en tient compte
+en recherchant, au-delà des contrôles, les indices de leur contournement
+(Chapitre~\ref{chap:fraude}).
+
+% ============================================================================
+\section{Le Contrôle Interne dans les Banques}
+\label{sec:c02-cobac}
+% ============================================================================
+
+Pour les établissements de crédit de la CEMAC, le contrôle interne n'est
+pas une option~: c'est une obligation réglementaire~\cite{cobac2016r04}.
+
+\begin{boxjuris}
+\textbf{Règlement COBAC R-2016/04, articles~1 et~2} (texte relevé sur une
+base réglementaire en ligne, à collationner avec le texte officiel)~:
+
+\medskip
+Article~1~: \textit{« Le présent règlement fixe les exigences minimales
+relatives au système de contrôle interne que les établissements assujettis
+doivent mettre en œuvre. »}
+
+\medskip
+Article~2, définition du risque opérationnel~: \textit{« risque de pertes
+résultant de l'inadéquation ou de la défaillance des processus internes,
+des personnes et des systèmes, ou d'évènements externes. »}
+
+\medskip
+\textbf{Analyse.} La défaillance d'un système informatique est, par
+définition, un risque opérationnel que le dispositif de contrôle interne de
+la banque doit maîtriser. L'auditeur des SI d'une banque teste donc les
+contrôles informatiques au titre de ce règlement, et pas seulement au titre
+des bonnes pratiques.
+\end{boxjuris}
+
+\begin{boxscenario}{Opération SANAGA. Le contrôle interne après la panne}
+\textbf{Faits.} Après la panne de trois jours de mars~2026, la COBAC demande
+à la BANQUE SANAGA de démontrer que son dispositif de contrôle interne
+couvre les risques liés aux systèmes d'information.
+
+\medskip
+\textbf{Constatation} (audit interne, Mme~EKAMBI). La matrice des risques
+et des contrôles de la banque compte 214~contrôles, dont 9~seulement portent
+sur l'informatique, et aucun sur la gestion des changements.
+
+\medskip
+\textbf{Analyse} (confiance élevée). Le risque qui s'est réalisé, un
+changement non maîtrisé du système central, n'était couvert par aucun
+contrôle~: le défaut est de conception, pas d'exécution. Le
+Chapitre~\ref{chap:audit-continuite} reviendra sur l'audit de la continuité
+de la banque.
+\end{boxscenario}
+
+\separateur
+
+\begin{boxresume}
+\textbf{Ce qu'il faut retenir de ce chapitre~:}
+\begin{itemize}
+    \item \textbf{Le contrôle interne est un processus}, porté par tous,
+          qui donne une assurance raisonnable sur les opérations,
+          l'information et la conformité.
+    \item \textbf{Cinq composantes, dix-sept principes} (COSO~2013)~: les
+          activités de contrôle ne suffisent pas sans environnement,
+          évaluation des risques, information et pilotage.
+    \item \textbf{Un contrôle se classe} selon le moment (préventif,
+          détectif, correctif), le mode (manuel, automatisé) et la portée
+          (général ou d'application)~; les contrôles généraux conditionnent
+          les contrôles d'application.
+    \item \textbf{La séparation des tâches} interdit le cumul des fonctions
+          qui permettraient de commettre et de dissimuler~; à défaut, des
+          contrôles compensatoires tracés.
+    \item \textbf{Un dispositif se conçoit} dans une matrice des risques et
+          des contrôles, où chaque contrôle laisse une preuve.
+    \item \textbf{Évaluer un contrôle}, c'est juger sa conception puis son
+          efficacité~; l'absence d'une trace exigée est un \NON{}, pas un
+          \NEK{}.
+\end{itemize}
+\end{boxresume}
+
+\bigskip
+
+\begin{boxexo}[title={\ding{45}\quad Exercice~2.1. Classer des contrôles \niveaubase}]
+Classez chacun des contrôles suivants (préventif, détectif ou correctif~;
+manuel ou automatisé~; général ou d'application).
+\begin{enumerate}[(a)]
+    \item L'application refuse une facture dont le numéro de commande
+          n'existe pas.
+    \item Le responsable informatique revoit chaque trimestre la liste des
+          comptes à privilèges.
+    \item La comptable rapproche chaque mois le relevé bancaire et le grand
+          livre.
+    \item Une sauvegarde de la base est restaurée chaque mois sur un serveur
+          de test.
+\end{enumerate}
+\end{boxexo}
+
+\begin{boxexo}[title={\ding{45}\quad Exercice~2.2. Corriger la matrice des droits \niveaumoyen}]
+Reprenez la matrice des droits de LiZbiZ (section~\ref{sec:c02-sod}).
+\begin{enumerate}[(a)]
+    \item Proposez une nouvelle répartition des droits qui supprime toutes
+          les paires incompatibles, sans retirer à quiconque les droits
+          nécessaires à son métier.
+    \item L'agence de Garoua ne compte que trois personnes. Proposez deux
+          contrôles compensatoires pour le cumul F2--F3 de M.~NANGA.
+    \item Rédigez la ligne de la matrice des risques et des contrôles
+          correspondant à l'un de ces contrôles.
+\end{enumerate}
+\end{boxexo}
+
+\begin{boxexo}[title={\ding{45}\quad Exercice~2.3. Le dispositif de la BANQUE SANAGA \niveauexpert}]
+La COBAC demande à la BANQUE SANAGA de compléter son dispositif de contrôle
+interne sur la gestion des changements informatiques.
+\begin{enumerate}[(a)]
+    \item Identifiez trois risques liés aux changements du système central.
+    \item Pour chacun, concevez un contrôle, en précisant sa nature, sa
+          fréquence, son responsable et la preuve qu'il laisse.
+    \item Pour l'un de ces contrôles, rédigez le test de conception et le
+          test d'efficacité que réalisera l'audit interne.
+    \item Indiquez dans quel cas l'auditrice devra coter le contrôle \NEK{}
+          plutôt que \NON{}.
+\end{enumerate}
+\end{boxexo}
+
+\bigskip
+
+\begin{boxinfo}
+\textbf{Transition.} Un contrôle se justifie par le risque qu'il traite. Le
+Chapitre~\ref{chap:risque} définit le risque, apprend à le mesurer et à le
+représenter dans une cartographie, point de départ de tout dispositif de
+contrôle et de tout plan d'audit.
+\end{boxinfo}

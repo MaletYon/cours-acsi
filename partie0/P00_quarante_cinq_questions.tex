@@ -1,0 +1,579 @@
+% ============================================================================
+% Fichier  : partie0/P00_quarante_cinq_questions.tex
+% Titre    : Prologue -- Quarante-Cinq Questions et Aucune Réponse Fiable
+% Auteur   : MINKA MI NGUIDJOÏ Thierry Emmanuel
+% Version  : 1.0 -- octobre 2026
+% ============================================================================
+% Source du cas : illustration LizbiZ de l'article A0, « Vers l'auditologie »
+% (HAL hal-05701007), section 4. Les faits repris de l'article (grille de 45
+% éléments en 5 domaines, domaine D incohérent, H ~ 1,2 bit, décomposition
+% 5 x 5, usage stratégique de NEK, régression de 35 % à 18 mois, résultats à
+% six mois) ne doivent pas être modifiés. Les autres faits sont propres au
+% cours et compatibles avec l'article.
+% ============================================================================
+
+\chapter[Prologue : Quarante-Cinq Questions]{Prologue : Quarante-Cinq Questions et Aucune Réponse Fiable}
+\label{chap:prologue}
+\chaptermark{Prologue}
+
+\epigraph{%
+    « Une grille qui interdit de répondre \emph{je ne sais pas}\\
+    ne supprime pas l'ignorance~: elle la déguise en certitude. »%
+}{Thierry Minka, auditeur des systèmes d'information}
+
+\niveauChapitre{Introductif}{%
+    Aucun prérequis. Ce prologue se lit avant toute définition~: il part
+    d'une mission qui a échoué.%
+}
+
+\begin{boxobjectifs}
+\begin{itemize}
+    \item Reconstituer la chronologie d'une mission d'audit qui a échoué
+          (opération LIZBIZ).
+    \item Distinguer une impression, une constatation et une opinion
+          d'audit.
+    \item Expliquer pourquoi une grille binaire OUI/NON produit des réponses
+          incohérentes sur un système partiellement observable.
+    \item Identifier les trois états épistémiques d'une réponse~: savoir que
+          oui, savoir que non, ne pas savoir.
+    \item Énoncer les cinq réflexes de l'auditeur, dont le droit de répondre
+          \NEK{} (connaissance insuffisante).
+    \item Situer le fil rouge du cours~: la méthode auditologique de conduite
+          de la mission.
+\end{itemize}
+\end{boxobjectifs}
+
+\bigskip
+
+% ============================================================================
+\section*{Avant de commencer : un rapport que personne n'a voulu signer}
+% ============================================================================
+
+Douala, mardi 14~avril~2026. Le comité de direction de LiZbiZ~SA\footnote{La
+société LiZbiZ, ses dirigeants, ses prestataires, les dates et les montants
+de ce cas sont fictifs. Les mécanismes d'audit, les normes et les textes
+cités sont exacts. Le cas reprend l'illustration de l'article
+\emph{Vers l'auditologie}~\cite{minka2026auditologie}, dont les données sont
+conservées.} examine le rapport d'audit interne commandé deux mois plus tôt.
+LiZbiZ est une entreprise de logistique~: quatre centres de données, à
+Douala, Yaoundé, Garoua et Bafoussam, et douze agences régionales qui
+suivent les expéditions, gèrent les entrepôts et facturent les clients sur
+une même application intégrée.
+
+La mission était née de deux alertes. L'inventaire annuel des entrepôts a
+fait apparaître un écart de \textbf{186~millions de francs CFA} entre le
+stock enregistré et le stock compté. Le commissaire aux comptes, le
+cabinet NDONGO \& ASSOCIÉS, a assorti sa certification d'une réserve sur
+les stocks. Le directeur général, M.~ETEME, a demandé un audit «~de tout le
+système d'information, et vite~».
+
+L'équipe d'audit a travaillé avec une grille de \textbf{45~questions}
+réparties en \textbf{5~domaines}, à cocher OUI ou NON. Les réponses ont été
+recueillies auprès du responsable informatique, des chefs d'agence et des
+responsables des centres de données. Le rapport conclut que le contrôle
+d'accès est «~globalement maîtrisé~».
+
+Le commissaire aux comptes en demande les papiers de travail. Il n'y en a
+pas. Le responsable informatique conteste deux conclusions. Trois chefs
+d'agence affirment n'avoir jamais été interrogés sur les points qu'on leur
+attribue. Le comité de direction refuse de valider le rapport.
+
+\medskip
+
+Ce prologue reconstitue cet échec et en tire les réflexes qui structurent
+tout le cours. Il ne suppose aucune connaissance préalable.
+
+\begin{boxalert}
+\textbf{Violation typique.} Conclure «~globalement maîtrisé~» sur un domaine
+où les répondants se contredisent, sans avoir noté qui a répondu quoi, ni
+sur quelle preuve.
+
+\smallskip
+\textbf{Règle~:} une conclusion d'audit qui ne peut pas être reliée à une
+preuve conservée n'est pas une conclusion~: c'est une opinion personnelle.
+\end{boxalert}
+
+\separateur
+
+% ============================================================================
+\section{Ce qui s'est passé}
+\label{sec:pro-chronologie}
+% ============================================================================
+
+\subsection{Reconstituer avant de juger}
+
+Avant de juger une mission, on en reconstitue le déroulement à partir des
+traces disponibles~: courriels, versions du rapport, comptes rendus. Le
+Tableau~P.1 donne la chronologie établie après coup par la
+contrôleuse interne, Mme~NKENG.
+
+\begin{tableaucours}{L{2.6cm}L{9.6cm}}{%
+    \tableauHeader{Date} &
+    \tableauHeader{Événement}
+}
+12 février 2026 & Le directeur général demande un audit « de tout le système
+d'information » par courriel, sans préciser ni objectifs, ni périmètre, ni
+référentiel. \\
+16 février & L'équipe d'audit reprend une grille de 45 questions utilisée
+dans une autre entreprise, en 5 domaines (A à E). \\
+17 février -- 13 mars & Réponses recueillies par téléphone et par courriel.
+Personne ne note l'identité des répondants question par question. \\
+16 mars & Le domaine D (contrôle d'accès) présente des réponses
+contradictoires. L'équipe retient la réponse majoritaire. \\
+30 mars & Rapport remis~: contrôle d'accès « globalement maîtrisé ». \\
+7 avril & Le commissaire aux comptes demande les papiers de travail~: il n'en
+existe pas. \\
+14 avril & Le comité de direction refuse de valider le rapport. \\
+\end{tableaucours}
+\vspace{-0.8em}
+\begin{center}{\small\itshape Tableau~P.1. Chronologie de la mission
+d'audit de LiZbiZ (reconstitution)}\end{center}
+
+\subsection{Impression, constatation, opinion}
+
+Le rapport mélange trois choses qu'il faut toujours séparer.
+
+\begin{boxdef}
+\termecle{Impression}\index{impression}~: jugement formé sans démarche ni
+preuve, souvent à partir d'un entretien ou d'une rumeur. Elle oriente
+l'investigation~; elle n'entre jamais dans un rapport.
+
+\medskip
+\termecle{Constatation}\index{constatation} (\textit{finding})~: fait
+vérifiable, établi par l'auditeur et appuyé sur une preuve conservée. Un
+tiers doit pouvoir la refaire et aboutir au même résultat.
+
+\medskip
+\termecle{Opinion d'audit}\index{opinion d'audit}~: conclusion motivée que
+l'auditeur tire d'un ensemble de constatations, au regard d'un critère
+connu à l'avance, et dont il assume la responsabilité.
+\end{boxdef}
+
+« Le contrôle d'accès est globalement maîtrisé » se présente comme une
+opinion. Mais elle ne repose sur aucune constatation conservée, et aucun
+critère n'avait été fixé. Ce n'est donc, au mieux, qu'une impression.
+
+\subsection{Trois défauts de méthode}
+
+\begin{enumerate}
+    \item \textbf{Pas de mandat.} Un courriel n'est pas une lettre de
+          mission~: ni objectifs, ni périmètre, ni référentiel. Personne ne
+          sait ce que l'audit devait démontrer (Chapitre~\ref{chap:planifier}).
+    \item \textbf{Pas de critère.} La grille vient d'une autre entreprise.
+          Ses questions ne disent pas ce qui serait « conforme » chez
+          LiZbiZ (Chapitre~\ref{chap:decomposition}).
+    \item \textbf{Pas de preuve.} Les réponses ne sont pas rattachées à des
+          répondants, ni à des documents, ni à des traces
+          (Chapitre~\ref{chap:preuve}).
+\end{enumerate}
+
+Ces trois défauts suffiraient à disqualifier le rapport. Mais il y a un
+quatrième problème, plus profond~: même conduite avec soin, la grille aurait
+échoué sur le domaine~D.
+
+% ============================================================================
+\section{Pourquoi la grille a échoué}
+\label{sec:pro-grille}
+% ============================================================================
+
+\subsection{Des réponses qui se contredisent}
+
+Le Tableau~P.2 reproduit trois questions du domaine~D,
+telles que trois interlocuteurs y ont répondu.
+
+\begin{tableaucours}{L{5.6cm}ccc}{%
+    \tableauHeader{Question (domaine D)} &
+    \tableauHeader{Resp. informatique} &
+    \tableauHeader{Chef d'agence} &
+    \tableauHeader{Centre de Garoua}
+}
+Les comptes des agents partis sont-ils désactivés~? & OUI & NON & OUI \\
+Les droits d'accès sont-ils revus chaque trimestre~? & OUI & NON & NON \\
+Les mots de passe des comptes d'administration sont-ils changés~? & OUI & OUI & NON \\
+\end{tableaucours}
+\vspace{-0.8em}
+\begin{center}{\small\itshape Tableau~P.2. Trois questions du domaine D et
+leurs réponses binaires (extrait)}\end{center}
+
+Qui ment~? Probablement personne. Le responsable informatique répond pour la
+procédure qu'il a rédigée. Le chef d'agence répond pour ce qu'il voit dans
+son agence. Le responsable du centre de Garoua répond pour son site. Et
+plusieurs d'entre eux, interrogés plus tard, reconnaissent qu'ils
+\emph{ne savaient pas} vraiment~: la grille ne leur laissait que OUI ou NON,
+ils ont choisi la réponse qui leur paraissait la plus probable, ou la plus
+confortable.
+
+\subsection{Trois états, deux cases}
+
+Une réponse d'audit peut traduire trois états de connaissance~: le
+répondant sait que le contrôle est en place, il sait qu'il ne l'est pas, ou
+il ne le sait pas. Une grille binaire n'offre que deux cases. Le troisième
+état est alors forcé dans l'une des deux, au hasard ou par calcul. C'est
+l'observation de départ de l'article qui fonde ce cours~\cite{minka2026nek}.
+
+\begin{boxdef}
+\termecle{Réponse NEK}\index{NEK (réponse)} (\textit{Not Enough Knowledge},
+connaissance insuffisante)~: troisième modalité de réponse, distincte de
+\OUI{} et de \NON{}, qui déclare que l'information disponible ne permet pas
+de conclure. Elle n'est pas un aveu d'échec~: c'est une information sur
+l'état de connaissance de l'organisation.
+
+\medskip
+\termecle{Instrument trichotomique}\index{instrument trichotomique}~: grille
+dont chaque question admet les trois réponses \OUI{}, \NON{} et \NEK{}.
+\end{boxdef}
+
+Les réponses contradictoires du domaine~D ne sont donc pas du bruit à
+éliminer en retenant la majorité. Elles signalent que l'organisation
+elle-même ne sait pas si ses contrôles d'accès fonctionnent. C'est
+précisément ce qu'un auditeur doit découvrir, et ce que la grille binaire
+cachait.
+
+\begin{boiteRemarque}{Retenir la réponse majoritaire, est-ce raisonnable~?}
+Non. Une majorité de OUI peut venir de répondants qui décrivent la
+procédure écrite sans l'avoir vu appliquer. Une réponse minoritaire peut
+venir du seul répondant qui a regardé la réalité. Un audit ne vote pas~: il
+cherche la preuve. Le vote masque de plus la question la plus utile~:
+\emph{pourquoi} les réponses divergent-elles~?
+\end{boiteRemarque}
+
+% ============================================================================
+\section{La mission reprise}
+\label{sec:pro-reprise}
+% ============================================================================
+
+En mai~2026, le comité de direction confie une seconde mission au cabinet
+AUDIX CONSEIL. Le chef de mission, M.~BEYALA, conserve le domaine~D comme
+cible prioritaire et applique la démarche que ce cours enseigne. Les
+résultats décrits ci-dessous sont ceux de l'illustration de l'article
+\emph{Vers l'auditologie}~\cite{minka2026auditologie}.
+
+\subsection{Cinq décisions de méthode}
+
+\begin{enumerate}
+    \item \textbf{Ajouter la modalité \NEK{}.} Chaque question admet
+          désormais trois réponses.
+    \item \textbf{Mesurer l'incertitude.} Pour le domaine~D, l'équipe
+          calcule l'entropie des réponses~: environ \textbf{1,2~bit}, sur un
+          maximum de $\log_2 3 \approx 1{,}585$~bit. C'est le signe d'une
+          forte opacité~: l'organisation ne sait pas ce qu'elle fait en
+          matière d'accès. Reste à savoir si cette ignorance est sincère ou
+          calculée.
+    \item \textbf{Décomposer le domaine.} Le domaine~D est découpé en
+          $5 \times 5$ sous-éléments, de sorte qu'aucun niveau ne demande à
+          l'auditeur de tenir plus de sept éléments à l'esprit à la fois.
+    \item \textbf{Comparer les contextes de réponse.} Les réponses données en
+          entretien formel, où l'enjeu est élevé, diffèrent nettement de
+          celles de l'auto-évaluation, où l'enjeu est faible~: certains
+          répondants utilisent \NEK{} de façon stratégique.
+    \item \textbf{Regarder dans le temps.} À partir de trois cycles d'audit
+          antérieurs, une estimation de l'évolution du domaine~D donne
+          \textbf{35~\%} de probabilité de régression dans les 18~mois.
+\end{enumerate}
+
+\subsection{Lire un domaine par trois mesures}
+
+Le chapitre~\ref{chap:conclure} définira trois mesures qui accompagnent
+tout le cours~: le taux de conformité~$\mu$ (part des \OUI{}), le taux
+d'incertitude~$U$ (part des \NEK{}) et l'entropie~$H$ (dispersion des
+réponses, en bits). L'encadré suivant les applique au second passage sur le
+domaine~D.
+
+\begin{boxlecture}{Domaine D, second passage}
+Cinq questions du domaine~D sont reposées à quatre interlocuteurs~: 20
+réponses, dont 13~\OUI{}, 2~\NON{} et 5~\NEK{}.
+
+\medskip
+\textbf{Constatation.} $\mu = 13/20 = 0{,}65$~; part des \NON{}~$= 0{,}10$~;
+$U = 5/20 = 0{,}25$. L'entropie vaut
+$H = -(0{,}65\log_2 0{,}65 + 0{,}10\log_2 0{,}10 + 0{,}25\log_2 0{,}25)
+\approx 1{,}24$~bit.
+
+\medskip
+\textbf{Analyse} (confiance moyenne). Avec 65~\% de \OUI{}, une grille
+binaire aurait conclu à un domaine plutôt conforme. Mais un quart des
+réponses déclarent ne pas savoir, et l'entropie est élevée~: on ne peut pas
+conclure. La conformité apparente est \emph{opaque}~: c'est ce que l'article
+\emph{Vers l'auditologie} appelle une \emph{non-conformité inconnue}, qui
+appelle d'abord des investigations et une clarification des processus,
+avant tout correctif technique (Chapitre~\ref{chap:conclure}).
+
+\medskip
+\hfill\lecture{0{,}65}{0{,}25}{1{,}24}
+\end{boxlecture}
+
+\begin{boxinfo}
+\textbf{Une règle à retenir dès maintenant.} On ne conclut jamais sur une
+seule mesure. Une entropie nulle peut signifier une certitude, mais aussi
+une ignorance unanime~: si tous les répondants répondent \NEK{}, l'entropie
+est nulle et pourtant personne ne sait rien ($U = 1$). Le
+chapitre~\ref{chap:conclure} en tirera la règle de décision du cours.
+\end{boxinfo}
+
+\subsection{Deux non-conformités, deux remèdes}
+
+Le rapport de la seconde mission distingue deux situations, que la grille
+binaire confondait~:
+
+\begin{tableaucours}{L{3.6cm}L{4.0cm}L{4.6cm}}{%
+    \tableauHeader{Situation} &
+    \tableauHeader{Signature} &
+    \tableauHeader{Remède}
+}
+Non-conformité connue & Entropie faible, non-conformité élevée & Correctifs
+techniques, contrôles renforcés \\
+Non-conformité inconnue & Entropie élevée & Formation, clarification des
+processus, nouvelles investigations \\
+\end{tableaucours}
+\vspace{-0.8em}
+\begin{center}{\small\itshape Tableau~P.3. Deux types de non-conformité
+(d'après~\cite{minka2026auditologie})}\end{center}
+
+Six mois plus tard, l'entropie du domaine~D est descendue à environ
+\textbf{0,6~bit}~: l'organisation sait désormais ce qu'elle fait en matière
+d'accès. Dans le domaine où l'entropie était faible, la conformité est
+passée de \textbf{52~\%} à \textbf{84~\%}.
+
+\subsection{Un exemple de décomposition}
+
+Le chapitre~\ref{chap:decomposition} enseignera le gabarit canonique de
+décomposition à huit niveaux~: domaine, sous-domaine, processus, activité,
+contrôle, test, preuve, trace. Chaque contrôle y porte une \emph{fiche
+d'assertion}. En voici une, pour l'une des questions qui posaient problème.
+
+\begin{boxobjet}{D.2.1 · Comptes des agents partis}
+\textbf{Position dans le gabarit~:} domaine D (contrôle d'accès)
+$\rightarrow$ sous-domaine D.2 (cycle de vie des comptes) $\rightarrow$
+processus «~départ d'un agent~» $\rightarrow$ activité «~retrait des
+accès~» $\rightarrow$ contrôle D.2.1.
+
+\textbf{Objectif~:} s'assurer qu'aucun agent parti ne conserve d'accès à
+l'application intégrée.
+
+\textbf{Critère~:} le compte d'un agent parti est désactivé dans les
+48~heures qui suivent la date de départ enregistrée par les ressources
+humaines.
+
+\textbf{Question~:} le compte de chaque agent parti au cours de la période
+a-t-il été désactivé dans les 48~heures~? Réponse \OUI{}, \NON{} ou \NEK{}.
+
+\textbf{Test~:} rapprocher la liste des départs de la période et la liste
+des comptes actifs, puis comparer les dates.
+
+\textbf{Preuve et trace~:} extraction des départs signée par les ressources
+humaines~; extraction des comptes actifs, avec son empreinte~; journal des
+désactivations de l'application.
+
+\textbf{Risque~:} un agent parti utilise son compte pour consulter ou
+modifier des données, par exemple pour masquer un écart de stock.
+
+\textbf{Conséquence~:} pertes non détectées, réserve du commissaire aux
+comptes reconduite, manquement à l'obligation de sécuriser les données
+personnelles des clients.
+\end{boxobjet}
+
+On remarque que la question n'a qu'une seule condition, que la preuve
+attendue est nommée avant le test, et que la réponse \NEK{} est prévue~:
+si les ressources humaines ne peuvent pas fournir la liste des départs,
+l'auditeur ne répond ni OUI ni NON, il le constate.
+
+% ============================================================================
+\section{Les cinq réflexes de l'auditeur}
+\label{sec:pro-reflexes}
+% ============================================================================
+
+L'échec de la première mission et la réussite de la seconde se résument en
+cinq réflexes. Chacun fait l'objet d'un chapitre du cours.
+
+\begin{tableaucours}{cL{4.2cm}L{6.0cm}c}{%
+    \tableauHeader{N°} &
+    \tableauHeader{Réflexe} &
+    \tableauHeader{Ce qu'il évite} &
+    \tableauHeader{Chapitre}
+}
+1 & Pas d'audit sans mandat écrit & Une mission sans objectif ni périmètre,
+dont on conteste ensuite les conclusions & \ref{chap:planifier} \\
+2 & Le critère avant le constat & Juger « maîtrisé » sans savoir ce qui
+serait conforme & \ref{chap:decomposition} \\
+3 & La preuve avant la conclusion & Des affirmations qu'aucun tiers ne peut
+vérifier & \ref{chap:preuve} \\
+4 & Le droit de répondre \NEK{} & Des certitudes forcées, des contradictions
+tranchées par un vote & \ref{chap:preuve} \\
+5 & Le contradictoire avant le rapport & Un audité qui découvre les
+conclusions et les conteste & \ref{chap:mission} \\
+\end{tableaucours}
+\vspace{-0.8em}
+\begin{center}{\small\itshape Tableau~P.4. Les cinq réflexes de
+l'auditeur}\end{center}
+
+\begin{boxprocedure}
+\textbf{Le minimum du papier de travail.} Pour qu'une réponse d'audit puisse
+fonder une constatation, le papier de travail qui la porte indique au
+moins~:
+\begin{itemize}
+    \item la question posée et le contrôle auquel elle se rattache~;
+    \item l'identité et la fonction du répondant, la date et le mode de
+          recueil (entretien, courriel, observation)~;
+    \item la réponse \OUI{}, \NON{} ou \NEK{}, et la preuve qui l'appuie
+          (document, extraction, observation)~;
+    \item la référence de la preuve conservée, et son empreinte s'il s'agit
+          d'un fichier~;
+    \item le nom de l'auditeur qui a recueilli la réponse.
+\end{itemize}
+\end{boxprocedure}
+
+\begin{boxmetier}{Auditeur SI}
+\textbf{Reprendre une mission contestée}
+\begin{enumerate}
+    \item Obtenir un mandat écrit~: objectifs, périmètre (les quatre centres
+          de données et les douze agences, ou une partie seulement),
+          référentiels, livrables, calendrier.
+    \item Ne pas réutiliser les réponses de la première mission~: elles ne
+          sont rattachées à aucune preuve.
+    \item Décomposer d'abord le domaine contesté, puis rédiger une fiche
+          d'assertion par contrôle.
+    \item Accepter et documenter les réponses \NEK{}~: elles disent où
+          chercher.
+    \item Présenter les constatations à l'audité avant le rapport, et
+          consigner ses réponses.
+\end{enumerate}
+\end{boxmetier}
+
+\begin{boxmetier}{Commissaire aux comptes}
+\textbf{Ce qu'il attend d'un audit des SI}
+
+Le commissaire aux comptes ne certifie pas le système d'information~: il
+certifie les comptes. Mais lorsque les stocks sont gérés par une
+application, il doit savoir si les contrôles de cette application sont
+fiables. Il demande donc les papiers de travail de l'auditeur des SI~: sans
+eux, il ne peut pas s'appuyer sur ses conclusions, et maintient sa réserve.
+\end{boxmetier}
+
+% ============================================================================
+\section{Le cours et son fil rouge}
+\label{sec:pro-cours}
+% ============================================================================
+
+\subsection{Une méthode, trois cas}
+
+Ce cours enseigne une méthode de conduite de la mission d'audit des
+systèmes d'information, présentée intégralement au fil des chapitres. Elle
+est l'instanciation opérationnelle, pour le praticien, du programme de
+recherche de l'\termecle{auditologie}\index{auditologie}~: une science
+appliquée de la réduction de l'incertitude dans l'audit des
+systèmes d'information~\cite{minka2026auditologie}. Son instrument de
+réponse \OUI{}~/ \NON{}~/ \NEK{} et ses mesures sont ceux de
+l'article~\cite{minka2026nek}. La formalisation de la décomposition, du
+suivi dans le temps et des comportements stratégiques est en cours de
+publication.
+
+Trois organisations fictives accompagnent le cours~:
+
+\begin{tableaucours}{L{3.0cm}L{5.4cm}L{3.8cm}}{%
+    \tableauHeader{Cas} &
+    \tableauHeader{Situation} &
+    \tableauHeader{Thèmes}
+}
+LiZbiZ (Douala) & Logistique, quatre centres de données, douze agences~;
+écart de stock et réserve du commissaire aux comptes & Méthode, contrôle
+interne, applications, sécurité \\
+BANQUE SANAGA (Douala) & Banque commerciale après une panne de trois jours
+de son système central & Contrôle interne bancaire (COBAC), changements,
+continuité \\
+ANPP (Yaoundé) & Agence publique de paiement, auditée par la Chambre des
+comptes & Audit public, conformité, projets \\
+\end{tableaucours}
+\vspace{-0.8em}
+\begin{center}{\small\itshape Tableau~P.5. Les trois cas fil rouge}\end{center}
+
+Les deux derniers cas viennent du cours MSN-2S3-MSI03 (IT Governance, COBIT
+et ITIL)~: les étudiants qui le suivent retrouveront les mêmes
+organisations, vues cette fois depuis la position de l'auditeur.
+
+\subsection{Le parcours}
+
+Le cours suit le cycle de la mission. La Partie~I pose les fondements~:
+l'audit et l'assurance (Chapitre~\ref{chap:audit-auditologie}), le contrôle
+interne (Chapitre~\ref{chap:controle-interne}), le risque et la fraude. La
+Partie~II enseigne la méthode, de la préparation à la conclusion. La
+Partie~III donne le cadre des normes et du droit. La Partie~IV applique la
+méthode aux grands domaines d'audit, jusqu'aux études de cas intégratrices
+(Chapitre~\ref{chap:cas-integrateurs}). Les Parties~V et~VI ouvrent sur les
+outils, l'intelligence artificielle et la recherche
+(Chapitre~\ref{chap:auditologie}).
+
+Les dix laboratoires de NDAP SUKULU font pratiquer chaque étape sur les
+pièces de LiZbiZ, de la BANQUE SANAGA et de l'ANPP.
+
+\separateur
+
+\begin{boxresume}
+\textbf{Ce qu'il faut retenir de ce prologue~:}
+\begin{itemize}
+    \item \textbf{Un rapport sans papiers de travail n'est pas un rapport}~:
+          une conclusion doit pouvoir être reliée à une preuve conservée.
+    \item \textbf{Impression, constatation, opinion}~: seule la constatation
+          est un fait vérifiable~; l'opinion se fonde sur des constatations
+          et un critère connu à l'avance.
+    \item \textbf{Une grille binaire force l'ignorance} dans OUI ou NON~:
+          les contradictions qui en résultent sont un signal, pas un bruit.
+    \item \textbf{La réponse \NEK{}} déclare une connaissance insuffisante~;
+          elle dit où chercher.
+    \item \textbf{Trois mesures}, $\mu$, $U$ et $H$, lisent un domaine~; on ne
+          conclut jamais sur une seule.
+    \item \textbf{Cinq réflexes}~: mandat écrit, critère avant constat,
+          preuve avant conclusion, droit au \NEK{}, contradictoire avant le
+          rapport.
+\end{itemize}
+\end{boxresume}
+
+\bigskip
+
+\begin{boxexo}[title={\ding{45}\quad Exercice~P.1. Impression, constatation ou opinion~? \niveaubase}]
+Classez chacune des phrases suivantes, extraites du premier rapport, et
+justifiez.
+\begin{enumerate}[(a)]
+    \item « Le responsable informatique nous a paru très compétent. »
+    \item « Sur les 14 agents partis en 2025, 5 avaient encore un compte actif
+          au 31 janvier 2026 (extraction du 2 février, empreinte jointe). »
+    \item « La sécurité des accès est satisfaisante. »
+    \item « Au regard de la procédure interne (désactivation sous 48~heures),
+          le contrôle de désactivation des comptes n'est pas efficace. »
+\end{enumerate}
+\end{boxexo}
+
+\begin{boxexo}[title={\ding{45}\quad Exercice~P.2. Réécrire trois questions \niveaumoyen}]
+Reprenez les trois questions du Tableau~P.2.
+\begin{enumerate}[(a)]
+    \item Pour chacune, indiquez le critère implicite et réécrivez-la de
+          façon qu'elle ne contienne qu'une seule condition vérifiable.
+    \item Indiquez, pour chacune, la preuve qui permettrait de répondre
+          \OUI{} ou \NON{}.
+    \item Décrivez une situation dans laquelle l'auditeur devrait répondre
+          \NEK{}, et ce qu'il fait alors.
+\end{enumerate}
+\end{boxexo}
+
+\begin{boxexo}[title={\ding{45}\quad Exercice~P.3. La note au directeur général \niveauexpert}]
+M.~ETEME vous demande pourquoi il devrait payer une seconde mission.
+\begin{enumerate}[(a)]
+    \item Rédigez une note d'une page qui explique, sans jargon, pourquoi le
+          premier rapport ne peut pas être validé.
+    \item Expliquez pourquoi 65~\% de réponses \OUI{} sur le domaine~D ne
+          permettent pas de conclure que le domaine est maîtrisé.
+    \item Proposez le contenu de la lettre de mission de la seconde mission~:
+          objectifs, périmètre, référentiels, livrables.
+    \item Indiquez ce que le commissaire aux comptes attendra de cette
+          seconde mission pour lever sa réserve.
+\end{enumerate}
+\end{boxexo}
+
+\bigskip
+
+\begin{boxinfo}
+\textbf{Transition.} Le prologue a montré une mission qui échoue et une
+mission qui réussit. Avant d'apprendre la méthode, il faut définir ce
+qu'est un audit, ce qu'il garantit, et ce qu'il ne garantit pas. Le
+Chapitre~\ref{chap:audit-auditologie} pose ces fondements et présente
+l'audit comme une réduction de l'incertitude.
+\end{boxinfo}

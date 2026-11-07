@@ -1,0 +1,462 @@
+% ============================================================================
+% Fichier  : partie2/P02_C06_preparer_planifier.tex
+% Titre    : Préparer et Planifier la Mission
+% Auteur   : MINKA MI NGUIDJOÏ Thierry Emmanuel
+% Version  : 1.0 -- octobre 2026
+% ============================================================================
+% Sources : cours Audit_SI de l'auteur (travaux préparatoires, documents à
+% solliciter, strates documentaires, lecture du SI en couches, entretiens par
+% niveau décisionnel), mis en cohérence avec les articles A0 et A1 (cotation
+% NEK, mesures µ, U, H) ; ordres de grandeur d'échantillonnage repris du
+% cours GCI (chapitre 11), indicatifs et non normatifs.
+% ============================================================================
+
+\chapter{Préparer et Planifier la Mission}
+\label{chap:planifier}
+
+\epigraph{%
+    « Le temps passé à préparer\\
+    se reprend sur le terrain, au double. »%
+}{Adage des chefs de mission}
+
+\niveauChapitre{Fondamental}{%
+    Maîtrise des Chapitres~\ref{chap:risque} (cartographie) et~\ref{chap:mission}
+    (cycle, outils O0 à O9)%
+}
+
+\begin{boxobjectifs}
+\begin{itemize}
+    \item Distinguer les travaux préparatoires de la planification.
+    \item Rédiger les termes de référence d'une mission en répondant à quatre
+          questions~: quand, comment, par qui, avec quoi.
+    \item Établir la liste des documents sollicités, et coter \NEK{} ou
+          \NON{} un document absent selon le cas.
+    \item Prendre connaissance d'un système d'information par couches, par
+          strates documentaires et par niveaux d'interlocuteurs.
+    \item Évaluer a priori le contrôle interne et produire la cartographie
+          préliminaire des risques.
+    \item Dimensionner les échantillons et rédiger le plan d'audit.
+\end{itemize}
+\end{boxobjectifs}
+
+\bigskip
+
+% ============================================================================
+\section*{Question directrice : que faut-il savoir avant d'auditer~?}
+% ============================================================================
+
+AUDIX CONSEIL dispose de huit semaines pour auditer LiZbiZ~: quatre
+centres de données, douze agences, une application intégrée, des milliers
+de comptes et de mouvements de stock. Impossible de tout voir. M.~BEYALA
+consacre donc les deux premières semaines à décider \emph{quoi} auditer,
+\emph{où}, \emph{avec qui} et \emph{comment}, avant le moindre test.
+
+Ce chapitre décrit ce travail. Il sépare la préparation de la
+planification (section~\ref{sec:c06-deux-phases}), présente les termes de
+référence (section~\ref{sec:c06-tdr}) et les documents sollicités
+(section~\ref{sec:c06-documents}), puis la prise de connaissance
+(section~\ref{sec:c06-connaissance}), l'évaluation a priori et la
+cartographie préliminaire (section~\ref{sec:c06-risques}), et enfin le plan
+d'audit (section~\ref{sec:c06-plan}).
+
+\separateur
+
+% ============================================================================
+\section{Préparer, puis Planifier}
+\label{sec:c06-deux-phases}
+% ============================================================================
+
+\begin{boxdef}
+\termecle{Travaux préparatoires}\index{travaux préparatoires} (phase~0)~:
+diligences qui conduisent à la lettre de mission et à la constitution de
+l'équipe~: analyse préalable des risques, termes de référence, ressources.
+
+\medskip
+\termecle{Planification}\index{planification} (phase~1)~: diligences qui
+préparent le terrain à partir de la lettre de mission~: prise de
+connaissance, cartographie préliminaire des risques, décomposition de
+l'espace d'audit, plan d'audit.
+\end{boxdef}
+
+On confond souvent les deux, parce que, du point de vue du contrat, la
+mission commence à la signature de la lettre de mission. Du point de vue de
+la démarche, la préparation \emph{produit} la lettre de mission~; la
+planification l'\emph{exploite}. Les acteurs diffèrent aussi~: la
+préparation associe étroitement le commanditaire, la planification
+mobilise surtout l'équipe d'audit.
+
+% ============================================================================
+\section{Les Termes de Référence}
+\label{sec:c06-tdr}
+% ============================================================================
+
+\subsection{Quatre questions}
+
+Les termes de référence (outil~O2) répondent à quatre questions, qui
+déterminent le coût et la faisabilité de la mission.
+
+\begin{tableaucours}{L{2.4cm}L{5.0cm}L{4.8cm}}{%
+    \tableauHeader{Question} &
+    \tableauHeader{Contenu} &
+    \tableauHeader{Chez LiZbiZ}
+}
+Quand~? & Période auditée, durée de la mission & Janvier à avril~2026~;
+huit semaines \\
+Comment~? & Type d'audit, objectifs, périmètre, référentiels, points
+d'attention du commanditaire & Audit d'application (stocks) et audit de
+sécurité (contrôle d'accès)~; COSO, ISO/IEC~27002 \\
+Par qui~? & Profils requis, auditeurs internes ou externes, absence de
+conflit d'intérêts & Un chef de mission, un auditeur réseau et sécurité, un
+auditeur données (SQL) \\
+Avec quoi~? & Moyens matériels, accès, budget & Accès en lecture à la base,
+outil d'analyse de données, déplacements à Garoua et Bafoussam \\
+\end{tableaucours}
+\vspace{-0.8em}
+\begin{center}{\small\itshape Tableau~6.1. Les quatre questions des termes
+de référence}\end{center}
+
+\subsection{Les livrables de la préparation}
+
+À l'issue de la phase~0, le dossier de la mission contient les termes de
+référence, la fiche technique (O1), la lettre de mission signée, et selon
+le cas le contrat, l'engagement de confidentialité, la déclaration d'absence
+de conflit d'intérêts de chaque auditeur et les autorisations d'accès aux
+sites.
+
+% ============================================================================
+\section{Les Documents Sollicités}
+\label{sec:c06-documents}
+% ============================================================================
+
+\subsection{Trois strates de documents}
+
+La liste des documents sollicités (outil~O3) se construit selon le type
+d'audit. Les documents n'ont pas tous la même valeur~: on les classe en trois
+strates.
+
+\begin{tableaucours}{L{2.4cm}L{3.8cm}L{3.0cm}L{3.0cm}}{%
+    \tableauHeader{Strate} &
+    \tableauHeader{Exemples} &
+    \tableauHeader{Ce qu'ils révèlent} &
+    \tableauHeader{Si absents}
+}
+1. Stratégique & Schéma directeur, politique de sécurité, plan de
+continuité, rapports d'audit précédents & L'engagement de la direction &
+Gouvernance informelle, recommandations non suivies \\
+2. Organisationnelle & Organigramme de la DSI, cartographie des
+applications et des interfaces, matrice des droits & Qui fait quoi &
+Responsabilités floues, cumuls de fonctions \\
+3. Opérationnelle & Journaux d'incidents, de sauvegardes, de traitements~;
+inventaires & Ce qui se fait réellement & Impossible de distinguer le
+déclaré du réel \\
+\end{tableaucours}
+\vspace{-0.8em}
+\begin{center}{\small\itshape Tableau~6.2. Les strates documentaires}\end{center}
+
+La confrontation des strates est en soi une source de constats~: une
+politique de sécurité (strate~1) qui exige une revue trimestrielle des
+droits, sans aucune trace de revue dans les journaux (strate~3), révèle
+l'écart entre l'affiché et le pratiqué.
+
+\subsection{Un document absent~: \NEK{} ou \NON{}~?}
+
+Chaque document est sollicité avec une priorité (haute ou moyenne), un
+interlocuteur et une date de remise. Lorsqu'un document n'est pas remis,
+l'auditeur doit qualifier cette absence avec soin.
+
+\begin{tableaucours}{L{4.8cm}cL{5.6cm}}{%
+    \tableauHeader{Situation} &
+    \tableauHeader{Cote} &
+    \tableauHeader{Justification}
+}
+Le document n'est pas remis malgré une relance, sans qu'on sache s'il
+existe & \NEK{} & L'information manque~: on ne peut pas conclure \\
+L'audité confirme par écrit que le document n'existe pas, alors que le
+critère l'exige & \NON{} & L'absence est établie~: le critère n'est pas
+satisfait \\
+Le document est remis, mais périmé ou non approuvé & \NON{} & Le critère
+(document à jour et approuvé) n'est pas satisfait \\
+\end{tableaucours}
+\vspace{-0.8em}
+\begin{center}{\small\itshape Tableau~6.3. Coter un document
+manquant}\end{center}
+
+\begin{boxlecture}{Documents sollicités}
+Sur 21 documents sollicités le 5~mai, au 22~mai et après une relance~: 12
+sont remis et conformes (\OUI{}), 3 sont remis mais périmés (\NON{}), 6 ne
+sont pas remis (\NEK{}), dont le plan de continuité et la politique de
+sécurité.
+
+\medskip
+\textbf{Constatation.} $\mu \approx 0{,}57$~; $U \approx 0{,}29$~;
+$H \approx 1{,}38$~bit.
+
+\medskip
+\textbf{Analyse} (confiance moyenne). Avant tout test, plus d'un quart de
+l'information de base manque, et deux des documents manquants relèvent de
+la strate stratégique. Le plan d'audit doit réserver du temps à les
+obtenir, ou à établir qu'ils n'existent pas~: chaque \NEK{} levé avant le
+terrain réduit l'incertitude de toute la mission.
+
+\medskip
+\hfill\lecture{0{,}57}{0{,}29}{1{,}38}
+\end{boxlecture}
+
+\begin{boxalert}
+\textbf{Violation typique.} Commencer les tests sans avoir obtenu la matrice
+des droits, puis conclure sur la séparation des tâches à partir des seuls
+entretiens.
+
+\smallskip
+\textbf{Règle~:} un document de priorité haute non remis est relancé par
+écrit, et son absence est consignée dans le suivi des documents (O9). On ne
+conclut jamais sur un contrôle dont la preuve principale manque~: il reste
+\NEK{}.
+\end{boxalert}
+
+% ============================================================================
+\section{Prendre Connaissance du Système d'Information}
+\label{sec:c06-connaissance}
+% ============================================================================
+
+\subsection{Une prise de connaissance bornée et hiérarchisée}
+
+\begin{boxdef}
+\termecle{Prise de connaissance}\index{prise de connaissance}~: ensemble des
+diligences par lesquelles l'auditeur acquiert, avant le terrain, une
+compréhension suffisante de l'organisation, de son système d'information,
+de ses processus et de ses risques pour définir un programme de travail
+pertinent. Elle produit le \emph{dossier de prise de connaissance}, première
+pièce du dossier d'audit.
+\end{boxdef}
+
+Elle est \emph{bornée} par le périmètre de la lettre de mission~: on ne
+documente que ce qui le concerne. Elle est \emph{hiérarchisée}~: on lit les
+documents par strates. Elle produit un livrable actionnable~: la
+cartographie préliminaire des risques. Dans le vocabulaire de
+l'auditologie, elle réduit l'incertitude initiale de l'auditeur jusqu'au
+niveau qui permet de formuler des hypothèses de risque~\cite{minka2026auditologie}.
+
+\subsection{Lire le SI en couches}
+
+L'auditeur ne peut pas juger une application sans comprendre ce sur quoi
+elle repose. Il lit le système d'information en quatre couches, de bas en
+haut~:
+\begin{enumerate}
+    \item \textbf{Infrastructure}~: matériels, réseaux, hébergement~; ici,
+          les quatre centres de données et les liaisons avec les agences.
+    \item \textbf{Bases de données et intergiciels}~: la base de
+          l'application intégrée, les interfaces.
+    \item \textbf{Applications}~: l'application intégrée, ses paramétrages et
+          ses contrôles.
+    \item \textbf{Données et accès}~: profils, droits, journaux, conservation.
+\end{enumerate}
+
+\subsection{Interroger par niveau}
+
+Les documents décrivent ce qui est formalisé~; les entretiens révèlent ce
+qui est pratiqué. Les entretiens de prise de connaissance ne recueillent
+pas encore de preuves~: ils situent les personnes, les tensions et les
+problèmes connus.
+
+\begin{tableaucours}{L{3.0cm}L{4.6cm}L{4.6cm}}{%
+    \tableauHeader{Niveau} &
+    \tableauHeader{Ce qu'on cherche} &
+    \tableauHeader{Signal d'alerte}
+}
+Direction générale & Les objectifs assignés au SI, la tolérance au risque,
+l'instance de pilotage & Le dirigeant ignore le rapport d'audit précédent \\
+DSI et responsables informatiques & Organisation, parc applicatif,
+prestataires, problèmes connus non résolus & « Tout va bien, nous n'avons
+aucun incident » \\
+Métiers et utilisateurs & La réalité vécue, les contournements, les
+incidents non remontés & Un fichier tableur qui double l'application \\
+\end{tableaucours}
+\vspace{-0.8em}
+\begin{center}{\small\itshape Tableau~6.4. Les entretiens de prise de
+connaissance}\end{center}
+
+\begin{boxmetier}{Auditeur SI}
+\textbf{Conduire la prise de connaissance de LiZbiZ}
+\begin{enumerate}
+    \item Lire d'abord les documents de strate~1, puis~2, puis~3, et noter
+          chaque écart entre strates.
+    \item Rencontrer le directeur général, puis le responsable informatique,
+          puis deux chefs d'agence et un magasinier.
+    \item Demander à chacun les « problèmes connus non résolus »~: ce sont
+          souvent les risques les plus sérieux.
+    \item Cartographier les couches du SI, du centre de données au compte
+          utilisateur.
+    \item Consigner chaque entretien dans un compte rendu daté.
+\end{enumerate}
+\end{boxmetier}
+
+% ============================================================================
+\section{Évaluer a Priori et Cartographier}
+\label{sec:c06-risques}
+% ============================================================================
+
+\subsection{L'évaluation a priori du contrôle interne}
+
+Avant les tests, l'auditeur forme une première opinion sur le contrôle
+interne, à partir des documents et des entretiens~: les contrôles
+existent-ils, sont-ils conçus pour traiter les risques
+(Chapitre~\ref{chap:controle-interne})~? Cette évaluation ne conclut rien~;
+elle oriente. Un contrôle jugé bien conçu sera testé en efficacité~; un
+contrôle absent ou mal conçu n'a pas besoin d'être testé~: c'est déjà un
+constat, et l'auditeur portera ses tests directement sur les données.
+
+\subsection{La cartographie préliminaire des risques}
+
+L'auditeur part de la cartographie des risques de l'organisation, si elle
+existe (Chapitre~\ref{chap:risque}). Sinon, il en établit une à partir de
+la prise de connaissance. Il y ajoute ce que l'auditologie invite à
+mesurer~: ce que l'on sait de chaque risque. On audite en priorité ce qui
+est \emph{le plus risqué} et \emph{le moins bien connu}.
+
+\begin{boxscenario}{Opération LIZBIZ. Choisir les zones d'audit}
+\textbf{Constatations.} Le registre de Mme~NKENG classe trois risques comme
+intolérables (ajustement du stock, fournisseurs fictifs, comptes d'agents
+partis). La liste des documents laisse inconnus le plan de continuité et la
+politique de sécurité. Les entretiens signalent un fichier tableur de suivi
+des stocks tenu à Garoua en parallèle de l'application.
+
+\medskip
+\textbf{Analyse} (confiance moyenne). Le plan d'audit retient trois zones~:
+la gestion des stocks (risque élevé, connaissance moyenne), le contrôle
+d'accès, domaine~D (risque élevé, connaissance faible), et l'agence de
+Garoua (contournement de l'application). La continuité est reportée à une
+mission ultérieure, faute de temps, et le rapport le dira.
+\end{boxscenario}
+
+% ============================================================================
+\section{Dimensionner et Rédiger le Plan d'Audit}
+\label{sec:c06-plan}
+% ============================================================================
+
+\subsection{Dimensionner les échantillons}
+
+L'étendue des tests dépend de la fréquence du contrôle testé et du risque
+(Chapitre~\ref{chap:risque}). Les ordres de grandeur suivants sont
+couramment pratiqués~; ce ne sont pas des exigences normatives, et chaque
+organisation d'audit fixe sa méthode. Le Chapitre~\ref{chap:preuve} traite
+de l'échantillonnage statistique.
+
+\begin{tableaucours}{L{5.0cm}L{4.0cm}}{%
+    \tableauHeader{Fréquence du contrôle} &
+    \tableauHeader{Taille d'échantillon}
+}
+Annuelle & 1 \\
+Trimestrielle & 2 \\
+Mensuelle & 2 à 5 \\
+Hebdomadaire & 5 à 15 \\
+Quotidienne & 20 à 40 \\
+Plusieurs fois par jour & 25 à 60 \\
+\end{tableaucours}
+\vspace{-0.8em}
+\begin{center}{\small\itshape Tableau~6.5. Ordres de grandeur
+d'échantillonnage (indicatifs)}\end{center}
+
+On retient le haut de la fourchette lorsque le risque est élevé ou le
+contrôle critique, le bas lorsqu'il est faible. Lorsque le risque de
+détection doit être très bas, comme pour les stocks de LiZbiZ
+(Chapitre~\ref{chap:risque}), on complète l'échantillon par des tests sur
+l'ensemble des données.
+
+\subsection{Le plan d'audit}
+
+Le plan d'audit (outil~O6), ou rapport d'orientation, clôt la
+planification. Il est la feuille de route du terrain.
+
+\begin{boxprocedure}
+\textbf{Le contenu du plan d'audit.} Pour qu'il puisse être approuvé, puis
+servir de référence lors de la revue de la mission, le plan d'audit
+indique~:
+\begin{itemize}
+    \item le contexte, les objectifs et le périmètre, rappelés de la lettre
+          de mission~;
+    \item les référentiels et les critères retenus~;
+    \item l'évaluation a priori du contrôle interne et la cartographie
+          préliminaire des risques~;
+    \item les zones d'audit retenues et celles écartées, avec la raison~;
+    \item le programme de travail par zone~: domaines décomposés, tests,
+          tailles d'échantillon, preuves attendues~;
+    \item le calendrier, l'équipe et l'affectation des tâches~;
+    \item la date et la signature de son approbation par le commanditaire.
+\end{itemize}
+\end{boxprocedure}
+
+\begin{boiteRemarque}{Le plan d'audit peut-il changer en cours de mission~?}
+Oui, et il le doit lorsque le terrain révèle un risque imprévu~: les
+ajustements de fin de mois à Douala (Chapitre~\ref{chap:fraude}) n'étaient
+pas dans le plan initial d'AUDIX CONSEIL. Mais toute modification est
+écrite, motivée et approuvée par le commanditaire~; sinon, le périmètre
+réellement audité ne correspond plus à celui que le rapport annonce.
+\end{boiteRemarque}
+
+\separateur
+
+\begin{boxresume}
+\textbf{Ce qu'il faut retenir de ce chapitre~:}
+\begin{itemize}
+    \item \textbf{La préparation produit la lettre de mission~; la
+          planification l'exploite.}
+    \item \textbf{Les termes de référence} répondent à quatre questions~:
+          quand, comment, par qui, avec quoi.
+    \item \textbf{Les documents se lisent par strates}~: stratégique,
+          organisationnelle, opérationnelle~; leur confrontation révèle
+          l'écart entre l'affiché et le pratiqué.
+    \item \textbf{Un document absent} est coté \NEK{} si l'on ne sait pas
+          s'il existe, \NON{} si son absence est établie alors que le
+          critère l'exige.
+    \item \textbf{La prise de connaissance} lit le SI en couches et interroge
+          par niveaux~; elle réduit l'incertitude initiale.
+    \item \textbf{Le plan d'audit} retient les zones les plus risquées et les
+          moins connues, dimensionne les tests et se fait approuver.
+\end{itemize}
+\end{boxresume}
+
+\bigskip
+
+\begin{boxexo}[title={\ding{45}\quad Exercice~6.1. Classer les documents \niveaubase}]
+Classez dans l'une des trois strates les documents suivants, et indiquez ce
+que révélerait leur absence~: le schéma directeur, la matrice des droits, le
+journal des sauvegardes, le rapport de la dernière mission d'audit,
+l'inventaire des licences, la charte d'utilisation du SI.
+\end{boxexo}
+
+\begin{boxexo}[title={\ding{45}\quad Exercice~6.2. Coter les absences \niveaumoyen}]
+Pour chacune des situations suivantes, indiquez la cote (\OUI{}, \NON{} ou
+\NEK{}) du contrôle « un plan de continuité approuvé existe pour le centre
+de Garoua », et justifiez.
+\begin{enumerate}[(a)]
+    \item Le plan est remis~; il date de 2019 et n'a jamais été approuvé.
+    \item Le responsable informatique dit qu'il existe, mais ne le remet pas
+          malgré deux relances.
+    \item Le directeur général écrit qu'aucun plan n'a jamais été rédigé.
+    \item Le plan est remis, approuvé en 2025, et couvre Garoua.
+\end{enumerate}
+\end{boxexo}
+
+\begin{boxexo}[title={\ding{45}\quad Exercice~6.3. Le plan d'audit de l'ANPP \niveauexpert}]
+La Chambre des comptes prépare l'audit des systèmes d'information de l'ANPP
+(Chapitre~\ref{chap:audit-auditologie}).
+\begin{enumerate}[(a)]
+    \item Rédigez les termes de référence en répondant aux quatre questions.
+    \item Établissez la liste des dix documents à solliciter en priorité,
+          classés par strate.
+    \item Proposez trois zones d'audit et justifiez-les par le risque et par
+          l'état de la connaissance.
+    \item Dimensionnez l'échantillon du test de la revue mensuelle des droits
+          d'accès au système de paiement.
+\end{enumerate}
+\end{boxexo}
+
+\bigskip
+
+\begin{boxinfo}
+\textbf{Transition.} Le plan d'audit a désigné les zones à auditer. Il faut
+maintenant les découper en éléments que l'auditeur peut réellement
+vérifier. Le Chapitre~\ref{chap:decomposition} présente le gabarit canonique
+de décomposition de l'espace d'audit et la fiche d'assertion.
+\end{boxinfo}

@@ -1,0 +1,392 @@
+% ============================================================================
+% Fichier  : partie4/P04_C17_audit_production_continuite_tiers.tex
+% Titre    : Auditer la Production, la Continuité et les Tiers
+% Auteur   : MINKA MI NGUIDJOÏ Thierry Emmanuel
+% Version  : 1.0 -- octobre 2026
+% ============================================================================
+% Sources : guide d'audit des SI du CHAI (2014), fiches 3.3 « production »
+% (sauvegarde, restauration, livraisons, maintenance) et 3.5 « support et
+% parc », paraphrasées ; COBIT 2019 (DSS01, DSS02, DSS04, BAI09) ; ISO
+% 22301:2019 ; objectifs de reprise du système central de la BANQUE SANAGA
+% (DMIA 8 h, RTO 4 h, RPO 15 min) et plan de continuité de 2022 jamais
+% testé, repris du cours GCI (chapitre 15) ; panne du 9 mars 7 h 30 au
+% 12 mars 8 h (72,5 h) repris du prologue de GCI. Rapport ISAE 3402 :
+% chapitre 10. Données du journal de sauvegarde : base du ACSI-LAB-09.
+% ============================================================================
+
+\chapter{Auditer la Production, la Continuité et les Tiers}
+\label{chap:audit-continuite}
+\chaptermark{Production, continuité, tiers}
+
+\epigraph{%
+    « Une sauvegarde qu'on n'a jamais restaurée\\
+    est une hypothèse, pas une sauvegarde. »%
+}{Adage des exploitants}
+
+\niveauChapitre{Intermédiaire}{%
+    Maîtrise du Chapitre~\ref{chap:audit-securite} (infrastructure) et du
+    Chapitre~\ref{chap:normes} (rapports ISAE~3402)%
+}
+
+\begin{boxobjectifs}
+\begin{itemize}
+    \item Décomposer l'audit de la production~: exploitation, sauvegardes et
+          restaurations, support, parc, maintenance.
+    \item Auditer des sauvegardes par leurs restaurations, et non par leurs
+          journaux.
+    \item Auditer un plan de continuité~: analyse d'impact, objectifs de
+          reprise, tests, écart entre le visé et le constaté.
+    \item Auditer un prestataire et un service en nuage~: clauses, droit
+          d'audit, rapports d'assurance, dépendance.
+\end{itemize}
+\end{boxobjectifs}
+
+\bigskip
+
+% ============================================================================
+\section*{Question directrice : la banque pouvait-elle reprendre en quatre heures~?}
+% ============================================================================
+
+Le plan de continuité de la BANQUE SANAGA, approuvé en 2022, fixe pour le
+système central une durée maximale d'interruption admissible de 8~heures,
+un objectif de reprise (RTO) de 4~heures et une perte de données maximale
+(RPO) de 15~minutes (cours MSN-2S3-MSI03). Le 9~mars~2026, les agences
+ouvrent sans système à 7~h~30~; le service revient le 12~mars à 8~h.
+Personne n'a ouvert le plan.
+
+La COBAC demande à Mme~EKAMBI si le dispositif de continuité était
+capable, avant la panne, de tenir ses objectifs. Ce chapitre décompose
+l'audit de la production (section~\ref{sec:c17-production}), audite les
+sauvegardes (section~\ref{sec:c17-sauvegardes}) et la continuité
+(section~\ref{sec:c17-continuite}), puis les prestataires
+(section~\ref{sec:c17-tiers}). Le ACSI-LAB-09 applique la méthode aux journaux
+de la banque.
+
+\separateur
+
+% ============================================================================
+\section{Décomposer l'Audit de la Production}
+\label{sec:c17-production}
+% ============================================================================
+
+La production, ou exploitation, fait fonctionner chaque jour les systèmes
+que les projets ont livrés. Le guide du CHAI en propose deux fiches, l'une
+pour la production, l'autre pour le support et le parc~\cite{chai2014guide}.
+
+\begin{tableaucours}{cL{3.0cm}L{5.6cm}L{2.2cm}}{%
+    \tableauHeader{Code} &
+    \tableauHeader{Sous-domaine} &
+    \tableauHeader{Contrôles (d'après le guide du CHAI)} &
+    \tableauHeader{COBIT}
+}
+PX.1 & Exploitation & Traitements planifiés et suivis~; alertes remontées
+en temps réel~; livraisons en production contrôlées par la production~;
+guides d'exploitation à jour & DSS01 \\
+PX.2 & Sauvegardes et restaurations & Sauvegardes conformes aux besoins~;
+comptes rendus contrôlés~; supports externalisés~; restaurations testées
+selon un planning & DSS04 \\
+PX.3 & Support & Centre de services~; tickets qualifiés et escaladés~;
+délais de clôture suivis~; satisfaction mesurée & DSS02 \\
+PX.4 & Parc & Inventaire du matériel et des logiciels~; licences~;
+installation à partir d'une configuration standard & BAI09 \\
+PX.5 & Maintenance & Contrats de maintenance des matériels critiques et des
+logiciels de base~; obsolescence suivie & DSS01, BAI09 \\
+\end{tableaucours}
+\vspace{-0.8em}
+\begin{center}{\small\itshape Tableau~17.1. Décomposition de l'audit de la
+production}\end{center}
+
+Chez LiZbiZ, les domaines~B (sauvegardes) et~E (exploitation) du
+Chapitre~\ref{chap:conclure} relèvent de cette décomposition~: le
+domaine~E, en non-conformité opaque ($U = 0{,}30$), appelle d'abord la
+recherche des preuves manquantes, notamment les comptes rendus des
+traitements de nuit.
+
+% ============================================================================
+\section{Auditer les Sauvegardes}
+\label{sec:c17-sauvegardes}
+% ============================================================================
+
+\subsection{Le journal ne suffit pas}
+
+Un journal de sauvegarde dit qu'une copie a été écrite. Il ne dit pas
+qu'elle est complète, lisible, ni qu'on saura la remonter dans le délai
+voulu. Le guide du CHAI demande donc à l'auditeur de croiser les
+sauvegardes avec les besoins, de vérifier le suivi des comptes rendus et
+des supports, puis de « se focaliser » sur la restauration~: procédures
+écrites, planning de tests, comptes rendus et actions qui en découlent.
+
+\begin{tableaucours}{L{3.6cm}L{4.4cm}L{4.2cm}}{%
+    \tableauHeader{Question} &
+    \tableauHeader{Preuve} &
+    \tableauHeader{Test}
+}
+Toutes les sauvegardes prévues ont-elles eu lieu~? & Journal de
+sauvegarde, plan de sauvegarde & Rapprocher jour par jour le planifié et
+l'exécuté \\
+Les échecs sont-ils traités~? & Tickets, comptes rendus & Pour chaque échec,
+retrouver l'action et sa date \\
+Les supports sont-ils externalisés~? & Bordereaux de sortie & Rapprocher
+les dates d'externalisation \\
+Sait-on restaurer, et en combien de temps~? & Comptes rendus de
+restauration & Comparer la durée constatée au RTO \\
+\end{tableaucours}
+\vspace{-0.8em}
+\begin{center}{\small\itshape Tableau~17.2. Auditer les sauvegardes}\end{center}
+
+\begin{boxalert}
+\textbf{Violation typique.} Conclure que les sauvegardes sont efficaces
+parce que le journal affiche « succès » chaque nuit.
+
+\smallskip
+\textbf{Règle~:} une sauvegarde est efficace quand une restauration
+récente, documentée, a réussi dans le délai visé. Sans test de
+restauration, le contrôle « on sait restaurer » est \NEK{}, quel que soit
+le journal.
+\end{boxalert}
+
+% ============================================================================
+\section{Auditer la Continuité}
+\label{sec:c17-continuite}
+% ============================================================================
+
+\subsection{De l'analyse d'impact aux tests}
+
+Le cours GCI présente la démarche de continuité~: analyse d'impact sur
+l'activité, durée maximale d'interruption admissible (DMIA), objectifs de
+reprise (RTO, RPO), plan, tests. L'ISO~22301 en formule les exigences pour
+un système de management de la continuité~\cite{iso22301_2019}. L'auditeur
+suit la même chaîne, et cherche à chaque maillon la pièce qui le prouve.
+
+\begin{boxprocedure}
+\textbf{Auditer un plan de continuité.}
+\begin{enumerate}
+    \item \textbf{Analyse d'impact}~: datée, revue après chaque changement
+          majeur, approuvée par les métiers.
+    \item \textbf{Objectifs}~: DMIA, RTO et RPO fixés pour chaque service
+          critique, et cohérents (RTO inférieur à la DMIA).
+    \item \textbf{Plan}~: il décrit le système \emph{actuel}, les
+          personnes à joindre, les procédures de bascule et de retour.
+    \item \textbf{Moyens}~: le site de secours héberge la version en
+          production, et les données y sont répliquées au rythme du RPO.
+    \item \textbf{Tests}~: au moins une fois par an pour chaque service
+          critique, avec un compte rendu, la durée constatée et les actions.
+    \item \textbf{Écart}~: la durée de reprise constatée, en test ou lors
+          d'un incident réel, est comparée au RTO.
+\end{enumerate}
+\end{boxprocedure}
+
+\subsection{Le dispositif de la BANQUE SANAGA}
+
+\begin{boxlecture}{Continuité, système central}
+Mme~EKAMBI cote dix contrôles de continuité du système central, à partir
+du plan de 2022, des journaux de sauvegarde du premier trimestre~2026, des
+comptes rendus de restauration de 2025 et de la chronologie de la panne.
+
+\medskip
+\begin{tableaucours}{L{7.0cm}c}{%
+    \tableauHeader{Contrôle} &
+    \tableauHeader{Cote}
+}
+Analyse d'impact revue depuis 2022 & \NON{} \\
+RTO et RPO fixés et approuvés & \OUI{} \\
+Plan à jour du système central actuel & \NON{} \\
+Site de secours à la version de production & \NON{} \\
+Plan testé dans l'année & \NON{} \\
+RTO tenu lors du dernier incident & \NON{} \\
+Sauvegardes quotidiennes réussies (seuil~: 98~\%) & \NON{} \\
+Supports de sauvegarde externalisés & \OUI{} \\
+Restauration testée chaque trimestre & \NON{} \\
+Revue après la reprise formalisée & \NEK{} \\
+\end{tableaucours}
+
+\medskip
+\textbf{Constatation.} $\mu = 0{,}20$~; $U = 0{,}10$~; $H \approx 1{,}16$~bit.
+Le service a été indisponible 72,5~heures pour un RTO de 4~heures. Sur les
+90~jours du premier trimestre, 84~sauvegardes ont réussi (93~\%). En 2025,
+deux des quatre tests de restauration prévus ont eu lieu, dont un a
+dépassé le RTO.
+
+\medskip
+\textbf{Analyse} (confiance élevée). Non-conformité claire~: la banque ne
+pouvait pas tenir ses objectifs. Les objectifs existaient, les moyens ne
+suivaient plus le système~: le plan et le site de secours décrivaient
+l'ancien système central. Le seul \NEK{} porte sur la revue après
+reprise~: le rapport à la COBAC existe, mais aucune revue interne
+formalisée n'a été retrouvée.
+
+\medskip
+\hfill\lecture{0{,}20}{0{,}10}{1{,}16}
+\end{boxlecture}
+
+\begin{boxmetier}{Auditeur SI}
+\textbf{Assister à un test de restauration}
+\begin{enumerate}
+    \item Choisir soi-même la sauvegarde à restaurer, et la date, dans la
+          période auditée.
+    \item Noter l'heure de début, les incidents, l'heure à laquelle le
+          service est utilisable.
+    \item Faire vérifier par un utilisateur métier que les données
+          restaurées sont complètes (quelques opérations connues).
+    \item Comparer la durée au RTO, et la date des dernières données
+          restaurées au RPO.
+    \item Conserver le compte rendu, signé, au dossier.
+\end{enumerate}
+\end{boxmetier}
+
+% ============================================================================
+\section{Auditer les Prestataires et le Nuage}
+\label{sec:c17-tiers}
+% ============================================================================
+
+\subsection{On externalise une activité, pas sa responsabilité}
+
+Infogérance, hébergement, service en nuage, maintenance applicative~: une
+partie du SI est souvent exploitée par un tiers. Le risque reste à
+l'organisation, et l'auditeur doit pouvoir l'apprécier. Trois sources de
+preuve se complètent~: le contrat, les rapports d'assurance du prestataire
+(un rapport ISAE~3402 de type~2, Chapitre~\ref{chap:normes}), et le droit
+d'aller voir.
+
+\begin{tableaucours}{L{4.0cm}L{8.2cm}}{%
+    \tableauHeader{Clause} &
+    \tableauHeader{Ce que l'auditeur vérifie}
+}
+Niveaux de service & Disponibilité, délais, RTO et RPO alignés sur ceux de
+l'organisation~; pénalités appliquées \\
+Droit d'audit & L'organisation, son auditeur et son régulateur peuvent
+auditer le prestataire, ou obtiennent un rapport d'assurance équivalent \\
+Sécurité et incidents & Mesures exigées~; notification des incidents dans
+un délai fixé \\
+Localisation des données & Lieu de stockage connu, compatible avec la loi
+sur les données personnelles (Chapitre~\ref{chap:droit}) \\
+Sous-traitance ultérieure & Recours à d'autres prestataires soumis à
+accord \\
+Réversibilité & Restitution des données dans un format exploitable, et
+assistance à la sortie \\
+Continuité du prestataire & Plan de continuité testé, dont les résultats
+sont communiqués \\
+\end{tableaucours}
+\vspace{-0.8em}
+\begin{center}{\small\itshape Tableau~17.3. Clauses à auditer dans un contrat
+de prestation ou de service en nuage}\end{center}
+
+\subsection{Le service en nuage}
+
+Dans un service en nuage, les responsabilités sont \emph{partagées}~: le
+fournisseur répond de l'infrastructure qu'il exploite, le client de ce
+qu'il y configure (comptes, droits, données, paramètres de sécurité).
+L'auditeur établit, pour chaque contrôle, qui en est responsable~; un
+contrôle que chacun croit à la charge de l'autre n'est assuré par
+personne. Les contrôles complémentaires énumérés dans un rapport ISAE~3402
+jouent le même rôle~: ils restent à tester chez le client.
+
+\begin{boxscenario}{Opération SANAGA. Le contrat de DIGICORE AFRIQUE}
+\textbf{Faits.} Mme~EKAMBI lit le contrat de maintenance du système central
+conclu avec DIGICORE AFRIQUE. Il prévoit des niveaux de service et des
+pénalités, une clause de confidentialité et la localisation des données à
+Douala. Il ne prévoit ni droit d'audit, ni réversibilité, ni encadrement de
+la sous-traitance ultérieure. L'annexe sur la notification des incidents,
+citée par le contrat, n'a pas été remise.
+
+\medskip
+\textbf{Cotation} des huit clauses~: 4~\OUI{}, 3~\NON{}, 1~\NEK{}.
+
+\medskip
+\textbf{Analyse} (confiance élevée). Sans droit d'audit, la banque dépend du
+rapport que le prestataire choisit de produire~: un type~1, au
+Chapitre~\ref{chap:normes}. Sans réversibilité, elle ne peut pas changer de
+prestataire sans risque. La recommandation porte sur un avenant, à
+négocier avant le renouvellement.
+\end{boxscenario}
+
+\begin{boxmetier}{Responsable GRC}
+\textbf{Tenir le registre des prestataires critiques}
+\begin{enumerate}
+    \item Recenser les prestataires dont dépend un service critique, et
+          le service concerné.
+    \item Pour chacun, noter les clauses présentes, le dernier rapport
+          d'assurance reçu, son type et sa période.
+    \item Évaluer la dépendance~: existe-t-il une solution de remplacement,
+          en combien de temps~?
+    \item Porter au registre des risques tout prestataire critique sans
+          droit d'audit ni réversibilité.
+    \item Revoir le registre chaque année, et avant chaque renouvellement
+          de contrat.
+\end{enumerate}
+\end{boxmetier}
+
+% ============================================================================
+
+\separateur
+
+\begin{boxresume}
+\textbf{Ce qu'il faut retenir de ce chapitre~:}
+\begin{itemize}
+    \item \textbf{Cinq sous-domaines de production}~: exploitation,
+          sauvegardes et restaurations, support, parc, maintenance.
+    \item \textbf{Une sauvegarde s'audite par sa restauration}~: sans test
+          récent et documenté, « on sait restaurer » est \NEK{}.
+    \item \textbf{La continuité est une chaîne}~: analyse d'impact,
+          objectifs, plan, moyens, tests, écart entre le RTO et le
+          constaté.
+    \item \textbf{Un plan qui décrit l'ancien système} ne protège pas le
+          nouveau~: il se met à jour à chaque changement majeur.
+    \item \textbf{On externalise une activité, pas sa responsabilité}~:
+          contrat, rapport d'assurance de type~2 et droit d'audit.
+    \item \textbf{Dans le nuage}, chaque contrôle a un responsable
+          désigné, fournisseur ou client.
+\end{itemize}
+\end{boxresume}
+
+\bigskip
+
+\begin{boxexo}[title={\ding{45}\quad Exercice~17.1. Rattacher les contrôles \niveaubase}]
+Rattachez chaque contrôle à un sous-domaine (PX.1 à PX.5).
+\begin{enumerate}[(a)]
+    \item Les licences installées sont rapprochées des licences acquises.
+    \item Les traitements de nuit ont un compte rendu contrôlé chaque matin.
+    \item Le serveur de base de données est couvert par un contrat de
+          maintenance avec intervention en quatre heures.
+    \item Les tickets de priorité 1 sont escaladés en moins de 30~minutes.
+    \item Un test de restauration est mené chaque trimestre.
+\end{enumerate}
+\end{boxexo}
+
+\begin{boxexo}[title={\ding{45}\quad Exercice~17.2. RTO et RPO \niveaumoyen}]
+Lors d'un test de restauration du système central de la BANQUE SANAGA, la
+restauration commence à 9~h~00 et le service est utilisable à 14~h~10. La
+dernière opération présente dans les données restaurées date de la veille
+à 23~h~50~; la sauvegarde testée avait été lancée à 23~h~30.
+\begin{enumerate}[(a)]
+    \item Le RTO de 4~heures est-il tenu~? Calculez l'écart.
+    \item Pourquoi ce test ne permet-il pas de juger le RPO de
+          15~minutes~?
+    \item Quel dispositif le RPO de 15~minutes suppose-t-il, et comment
+          l'auditer~?
+    \item Cotez le contrôle « RTO tenu en test » et rédigez la
+          constatation.
+\end{enumerate}
+\end{boxexo}
+
+\begin{boxexo}[title={\ding{45}\quad Exercice~17.3. Un service en nuage pour l'ANPP \niveauexpert}]
+L'ANPP envisage d'héberger le portail de consultation des bulletins de
+paie chez un fournisseur de service en nuage.
+\begin{enumerate}[(a)]
+    \item Dressez la liste des contrôles et, pour chacun, dites s'il
+          relève du fournisseur ou de l'ANPP.
+    \item Quelles clauses le contrat doit-il contenir~? Lesquelles sont
+          liées au droit camerounais (Chapitre~\ref{chap:droit})~?
+    \item Le fournisseur propose un rapport ISAE~3402 de type~1. Que
+          demandez-vous, et pourquoi~?
+    \item Comment la Chambre des comptes pourra-t-elle auditer ce service~?
+\end{enumerate}
+\end{boxexo}
+
+\bigskip
+
+\begin{boxinfo}
+\textbf{Transition.} La Partie~\ref{part:pratique} a audité le SI domaine
+par domaine. Le Chapitre~\ref{chap:cas-integrateurs} réunit les trois cas
+du cours dans des missions complètes, de la lettre de mission au suivi.
+\end{boxinfo}

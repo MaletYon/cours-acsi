@@ -1,0 +1,469 @@
+% ============================================================================
+% Fichier  : partie1/P01_C04_fraude.tex
+% Titre    : La Fraude dans et par les Systèmes d'Information
+% Auteur   : MINKA MI NGUIDJOÏ Thierry Emmanuel
+% Version  : 1.0 -- octobre 2026
+% ============================================================================
+% Sources : COSO et ACFE, Guide de gestion du risque de fraude, synthèse
+% (décembre 2016, dossier Normes) ; Cressey (1953) pour le triangle de la
+% fraude ; COSO 2013 (principe 8) ; article A0 (axiome 4, interaction
+% stratégique) et article A1 (usage stratégique de NEK). L'obligation de
+% révélation du commissaire aux comptes (AUSCGIE) est décrite sans numéro
+% d'article : à vérifier dans le texte.
+% ============================================================================
+
+\chapter{La Fraude dans et par les Systèmes d'Information}
+\label{chap:fraude}
+\chaptermark{La fraude et les SI}
+
+\epigraph{%
+    « L'erreur se cache par hasard.\\
+    La fraude se cache exprès~: c'est ce qui la rend auditable. »%
+}{Principe de l'auditeur}
+
+\niveauChapitre{Intermédiaire}{%
+    Maîtrise des Chapitres~\ref{chap:controle-interne} (séparation des
+    tâches) et~\ref{chap:risque} (cartographie des risques)%
+}
+
+\begin{boxobjectifs}
+\begin{itemize}
+    \item Définir la fraude et la distinguer de l'erreur.
+    \item Expliquer le triangle de la fraude et le relier à l'interaction
+          stratégique entre auditeur et audité.
+    \item Classer les schémas de fraude assistés par l'informatique et leurs
+          signaux dans les données.
+    \item Concevoir un dispositif de gestion du risque de fraude selon le
+          guide du COSO et de l'ACFE.
+    \item Reconnaître un usage stratégique de la réponse \NEK{}.
+    \item Savoir quand l'audit doit s'arrêter et laisser place à
+          l'enquête.
+\end{itemize}
+\end{boxobjectifs}
+
+\bigskip
+
+% ============================================================================
+\section*{Question directrice : erreur ou fraude~?}
+% ============================================================================
+
+Au Chapitre~\ref{chap:risque}, trois risques intolérables de LiZbiZ
+supposaient une intention~: ajuster le stock, payer des fournisseurs
+fictifs, utiliser le compte d'un agent parti. Lorsque AUDIX CONSEIL
+présente sa cartographie, le responsable informatique proteste~: « Ce sont
+des erreurs de saisie, pas des fraudes. Nos agents sont honnêtes. »
+
+Peut-être. Mais l'auditeur ne présume ni l'honnêteté ni la malhonnêteté~: il
+cherche des faits. Ce chapitre définit la fraude
+(section~\ref{sec:c04-definir}), explique pourquoi elle survient
+(section~\ref{sec:c04-triangle}), décrit ses schémas dans les systèmes
+d'information (section~\ref{sec:c04-schemas}), présente le dispositif qui la
+prévient et la détecte (section~\ref{sec:c04-dispositif}), montre comment
+la repérer dans les données et dans les réponses
+(sections~\ref{sec:c04-donnees} et~\ref{sec:c04-strategie}), et fixe la
+limite entre audit et enquête (section~\ref{sec:c04-enquete}).
+
+\separateur
+
+% ============================================================================
+\section{Définir la Fraude}
+\label{sec:c04-definir}
+% ============================================================================
+
+\begin{boxdef}
+\termecle{Fraude}\index{fraude}~: acte \emph{intentionnel}, commis par une ou
+plusieurs personnes de l'organisation ou extérieures à elle, qui recourt à
+la tromperie pour obtenir un avantage indu ou causer un préjudice.
+
+\medskip
+\termecle{Erreur}\index{erreur}~: inexactitude \emph{non intentionnelle}
+(faute de saisie, mauvaise interprétation d'une règle, panne).
+\end{boxdef}
+
+Ce qui distingue la fraude de l'erreur, c'est l'intention, et donc la
+\emph{dissimulation}. Une erreur laisse des traces au hasard~; une fraude
+efface les siennes, ou les place là où personne ne regarde. C'est pourquoi
+la fraude obéit à des schémas, que l'auditeur peut connaître.
+
+\begin{tableaucours}{L{3.6cm}L{4.4cm}L{4.2cm}}{%
+    \tableauHeader{Famille} &
+    \tableauHeader{Définition} &
+    \tableauHeader{Exemple chez LiZbiZ}
+}
+Détournement d'actifs & Appropriation de biens ou de fonds de
+l'organisation & Vol de marchandises masqué par un ajustement de stock \\
+Corruption & Usage de sa fonction pour obtenir un avantage indu, souvent
+avec un tiers & Commission versée par un transporteur pour être
+retenu \\
+Fraude à l'information financière & Présentation trompeuse des états
+financiers & Stock surévalué pour améliorer le résultat \\
+\end{tableaucours}
+\vspace{-0.8em}
+\begin{center}{\small\itshape Tableau~4.1. Trois familles de fraude
+(classification usuelle de la profession)}\end{center}
+
+% ============================================================================
+\section{Pourquoi la Fraude Survient}
+\label{sec:c04-triangle}
+% ============================================================================
+
+\subsection{Le triangle de la fraude}
+
+Dans les années 1950, le criminologue Donald Cressey étudie des personnes
+condamnées pour détournement de fonds~\cite{cressey1953}. Ses travaux ont
+donné naissance au \termecle{triangle de la fraude}\index{triangle de la
+fraude}~: la fraude survient lorsque trois conditions sont réunies.
+
+\noindent\begin{minipage}{\linewidth}
+\begin{center}
+\begin{tikzpicture}[
+    sommet/.style = {
+        draw=CouleurPrimaire, fill=CouleurDef, rounded corners=4pt,
+        text width=3.2cm, align=center, minimum height=1.0cm,
+        font=\small\bfseries\color{CouleurPrimaire}
+    }
+]
+\coordinate (A) at (0,3.0);
+\coordinate (B) at (-3.0,0);
+\coordinate (C) at (3.0,0);
+\draw[very thick, color=CouleurAccent] (A) -- (B) -- (C) -- cycle;
+\node[sommet] at (A) {Pression\\ \mdseries\footnotesize dette, objectifs intenables};
+\node[sommet] at (B) {Opportunité\\ \mdseries\footnotesize contrôle faible, droits cumulés};
+\node[sommet] at (C) {Rationalisation\\ \mdseries\footnotesize « je le rendrai », « on me doit »};
+\node[font=\footnotesize\itshape, color=CouleurSecondaire] at (0,1.0) {Fraude};
+\end{tikzpicture}
+\end{center}
+\vspace{-0.4em}
+\begin{center}{\small\itshape Figure~4.1. Le triangle de la fraude, d'après
+les travaux de Cressey}\end{center}
+\end{minipage}
+
+\medskip
+
+L'auditeur et le contrôleur interne n'ont guère de prise sur la pression ni
+sur la rationalisation. Ils agissent sur l'\textbf{opportunité}~: c'est
+pourquoi la séparation des tâches et la revue des droits
+(Chapitre~\ref{chap:controle-interne}) sont les premières défenses contre la
+fraude. Des auteurs ont ajouté un quatrième élément, la \emph{capacité}~: la
+position et les compétences qui permettent de passer à l'acte. Dans les
+systèmes d'information, cette capacité est souvent technique~: un
+administrateur peut faire ce que le contrôle interne interdit aux autres.
+
+\subsection{Un jeu entre l'auditeur et l'audité}
+
+L'auditologie pose que l'auditeur et l'audité poursuivent des intérêts
+distincts, et que leurs actions se comprennent comme des coups dans un jeu
+à information imparfaite (axiome~4~\cite{minka2026auditologie}). La fraude en
+est le cas extrême~: le fraudeur sait ce que l'auditeur ignore, et cherche à
+ce qu'il continue de l'ignorer. Deux conséquences pratiques en découlent.
+
+\begin{enumerate}
+    \item \textbf{L'audité adapte ses réponses à l'enjeu.} Une même personne
+          ne répond pas de la même façon dans une auto-évaluation et dans un
+          entretien formel (section~\ref{sec:c04-strategie}).
+    \item \textbf{L'auditeur doit être imprévisible.} Un programme de tests
+          connu d'avance indique au fraudeur où ne pas laisser de traces~:
+          les échantillons, les dates et certains tests doivent rester
+          inconnus de l'audité.
+\end{enumerate}
+
+% ============================================================================
+\section{Les Schémas de Fraude Assistés par l'Informatique}
+\label{sec:c04-schemas}
+% ============================================================================
+
+\begin{tableaucours}{L{2.9cm}L{3.2cm}L{3.0cm}L{3.1cm}}{%
+    \tableauHeader{Schéma} &
+    \tableauHeader{Vulnérabilité exploitée} &
+    \tableauHeader{Contrôle préventif} &
+    \tableauHeader{Signal dans les données}
+}
+Fournisseur fictif & Cumul création du fournisseur et paiement & Séparation
+des tâches, validation des nouveaux fournisseurs & Coordonnées bancaires
+partagées avec un salarié, absence d'adresse \\
+Modification des coordonnées bancaires & Données de référence modifiables
+sans validation & Double validation, journal des modifications &
+Changement de RIB suivi d'un paiement dans les jours suivants \\
+Fausse réception & Cumul commande et réception & Réception confirmée par
+une personne distincte & Réception sans bon de transport, à l'heure de
+fermeture \\
+Ajustement de stock & Cumul réception et ajustement & Validation au-delà
+d'un seuil & Ajustements concentrés en fin de mois, sans pièce \\
+Fractionnement & Seuil de validation connu & Contrôle des cumuls par
+fournisseur & Paiements juste sous le seuil, répétés \\
+Compte dormant & Comptes d'agents partis non désactivés & Revue périodique
+des comptes & Connexion après la date de départ \\
+Abus d'administrateur & Droits techniques étendus, sans trace & Comptes
+nominatifs, journalisation protégée & Opérations de gestion faites par un
+compte d'administration \\
+\end{tableaucours}
+\vspace{-0.8em}
+\begin{center}{\small\itshape Tableau~4.2. Schémas de fraude et
+signaux}\end{center}
+
+\begin{boxalert}
+\textbf{Violation typique.} Laisser le responsable informatique, qui détient
+tous les droits, administrer lui-même les journaux qui tracent ses propres
+actions.
+
+\smallskip
+\textbf{Règle~:} les journaux des comptes d'administration sont conservés
+hors de leur portée et examinés par une personne indépendante.
+\end{boxalert}
+
+% ============================================================================
+\section{Le Dispositif Anti-Fraude}
+\label{sec:c04-dispositif}
+% ============================================================================
+
+Le principe~8 du COSO~2013 demande de prendre en compte le risque de fraude
+(Chapitre~\ref{chap:controle-interne}). Le COSO et l'Association of
+Certified Fraud Examiners (\sigle{ACFE}) ont publié en 2016 un guide qui
+décline cette exigence en un programme global de gestion du risque de
+fraude~\cite{coso2016fraude}. Ses cinq principes sont alignés sur les cinq
+composantes du contrôle interne.
+
+\begin{tableaucours}{L{3.6cm}L{8.6cm}}{%
+    \tableauHeader{Volet} &
+    \tableauHeader{Contenu (reformulé)}
+}
+Gouvernance & Une politique écrite de gestion du risque de fraude, portée
+par l'organe de gouvernance et la direction \\
+Évaluation & Une évaluation régulière et complète du risque de fraude,
+schéma par schéma \\
+Activités de contrôle & Des contrôles préventifs et détectifs choisis pour
+les schémas identifiés \\
+Investigation et correction & Un dispositif de signalement et une approche
+coordonnée des investigations et des mesures correctives \\
+Pilotage & Des évaluations qui vérifient que les cinq volets fonctionnent,
+et la communication des déficiences \\
+\end{tableaucours}
+\vspace{-0.8em}
+\begin{center}{\small\itshape Tableau~4.3. Les cinq volets de la gestion du
+risque de fraude (d'après COSO et ACFE, 2016)}\end{center}
+
+\begin{boxmetier}{Contrôleur interne}
+\textbf{Bâtir le programme anti-fraude de LiZbiZ}
+\begin{enumerate}
+    \item Faire adopter par le conseil une politique anti-fraude~: tolérance
+          zéro, obligation de signaler, protection des lanceurs d'alerte.
+    \item Dresser, schéma par schéma, la liste des fraudes possibles dans
+          l'application intégrée (Tableau~4.2).
+    \item Supprimer d'abord les opportunités~: cumuls de droits, comptes
+          dormants, seuils connus et non surveillés.
+    \item Mettre en place des contrôles détectifs automatiques sur les
+          données, revus chaque mois.
+    \item Ouvrir un canal de signalement confidentiel, hors de la
+          hiérarchie directe.
+\end{enumerate}
+\end{boxmetier}
+
+% ============================================================================
+\section{Repérer la Fraude dans les Données}
+\label{sec:c04-donnees}
+% ============================================================================
+
+L'informatique facilite la fraude, mais elle en garde la trace. L'auditeur
+analyse l'ensemble des opérations, et non un échantillon, à la recherche des
+signaux du Tableau~4.2~: doublons, valeurs juste sous un seuil, opérations
+hors des heures de travail, coordonnées partagées entre un fournisseur et un
+salarié. Le Chapitre~\ref{chap:audit-continu} présentera les outils de ces
+analyses.
+
+\begin{boxscenario}{Opération LIZBIZ. Ce que disent les données}
+\textbf{Tests réalisés} par AUDIX CONSEIL sur les extractions de l'application
+intégrée, pour 2025 et le premier trimestre~2026.
+
+\medskip
+\textbf{Constatation 1.} Le fournisseur « TRANSLOG SERVICES », créé en
+mars~2025 par Mme~OWONA, a reçu 23~paiements de 4,9~millions FCFA chacun,
+soit 112,7~millions FCFA. Le seuil de double validation est de 5~millions.
+Ses coordonnées bancaires sont identiques à celles qu'un salarié a déclarées
+pour sa paie.
+
+\medskip
+\textbf{Constatation 2.} À l'entrepôt de Douala, les ajustements négatifs de
+stock saisis par M.~FOUDA s'élèvent à 148~millions FCFA, dont 71~\% le
+dernier jour ouvré du mois. Aucun n'est appuyé par un procès-verbal
+d'inventaire.
+
+\medskip
+\textbf{Constatation 3.} Sur l'écart de stock de 186~millions FCFA, 38~millions
+ne peuvent être rattachés à aucune opération~: les extractions des autres
+entrepôts sont incomplètes.
+
+\medskip
+\textbf{Analyse} (confiance moyenne). Les constatations 1 et 2 réunissent
+les signaux de deux schémas~: fournisseur fictif avec fractionnement, et
+ajustement de stock. Elles ne prouvent pas une fraude, car l'intention reste
+à établir, mais elles imposent d'en informer le commanditaire. La
+constatation 3 est cotée \NEK{}~: on ne sait pas, et il faut dire pourquoi.
+\end{boxscenario}
+
+% ============================================================================
+\section{Repérer la Dissimulation dans les Réponses}
+\label{sec:c04-strategie}
+% ============================================================================
+
+Le prologue l'a annoncé~: les réponses données en entretien formel ont
+différé de celles de l'auto-évaluation. La réponse \NEK{} peut traduire une
+ignorance sincère~; elle peut aussi servir à ne pas répondre. L'article
+\emph{Modelling Epistemic Uncertainty in IS Audit} propose un indice, le
+\termecle{SUI}\index{SUI (indice d'usage stratégique)} (\textit{Strategic Use
+Index}), qui compare la distribution des \NEK{} entre questions à fort enjeu
+et à faible enjeu, pour distinguer l'ignorance authentique de la
+dissimulation~\cite{minka2026nek}. Le Chapitre~\ref{chap:incertitude} en
+donnera la définition.
+
+\begin{boxlecture}{Entrepôt de Douala}
+Les mêmes dix questions sur la gestion du stock de Douala sont posées aux
+mêmes deux responsables, d'abord en auto-évaluation écrite, puis en
+entretien formel, après la découverte des ajustements.
+
+\medskip
+\begin{tableaucours}{L{3.6cm}ccccc}{%
+    \tableauHeader{Contexte} &
+    \tableauHeader{\OUI{}} & \tableauHeader{\NON{}} & \tableauHeader{\NEK{}} &
+    \tableauHeader{$U$} & \tableauHeader{$H$ (bit)}
+}
+Auto-évaluation & 17 & 2 & 1 & 0,05 & 0,75 \\
+Entretien formel & 9 & 3 & 8 & 0,40 & 1,46 \\
+\end{tableaucours}
+
+\medskip
+\textbf{Constatation.} Le taux de \NEK{} passe de 5~\% à 40~\% lorsque
+l'enjeu augmente, pour les mêmes personnes et les mêmes questions.
+
+\medskip
+\textbf{Analyse} (confiance faible à moyenne). Une ignorance sincère ne
+devrait pas dépendre du contexte. Ce déplacement est un \emph{signal}
+d'usage stratégique de \NEK{}, pas une preuve~: d'autres explications sont
+possibles, comme la crainte de se tromper devant un auditeur. Il oriente
+les tests vers les questions où \NEK{} a le plus augmenté.
+
+\medskip
+\hfill\lecture{0{,}45}{0{,}40}{1{,}46}
+\end{boxlecture}
+
+% ============================================================================
+\section{De l'Audit à l'Enquête}
+\label{sec:c04-enquete}
+% ============================================================================
+
+L'auditeur n'est ni un enquêteur ni un juge. Lorsque ses travaux révèlent des
+indices sérieux de fraude, il ne poursuit pas seul.
+
+\begin{boxprocedure}
+\textbf{Conduite à tenir devant des indices de fraude.} Le papier de travail
+de l'auditeur doit permettre d'établir qu'il a~:
+\begin{itemize}
+    \item conservé les extractions et les journaux utilisés, avec leur
+          empreinte numérique, sans les modifier~;
+    \item consigné les constatations séparément de leur analyse, sans
+          qualification pénale («~fraude~», «~vol~»)~;
+    \item informé le commanditaire désigné par la lettre de mission, par
+          écrit, et non les personnes mises en cause~;
+    \item suspendu les tests susceptibles d'alerter les personnes en cause,
+          dans l'attente de la décision du commanditaire.
+\end{itemize}
+\end{boxprocedure}
+
+La suite relève d'une enquête interne, d'un expert judiciaire ou de la
+justice. Elle obéit aux règles de la preuve numérique~: chaîne de
+conservation, intégrité, opposabilité. Le Chapitre~\ref{chap:audit-ia}
+et le cours de Théorie et Pratique de l'Investigation Numérique y
+reviennent.
+
+\begin{boxmetier}{Commissaire aux comptes}
+\textbf{Des indices de fraude dans l'audit légal}
+
+Le commissaire aux comptes de LiZbiZ, informé des constatations d'AUDIX
+CONSEIL, doit en apprécier l'effet sur les comptes~: stock surévalué,
+charges fictives. Le droit OHADA des sociétés commerciales lui impose en
+outre de révéler au ministère public les faits délictueux dont il a
+connaissance dans l'exercice de sa mission~\cite{ohada2014auscgie}
+(l'article est à vérifier dans le texte avant toute citation). Il ne peut
+donc pas «~régler l'affaire en interne~».
+\end{boxmetier}
+
+\begin{boiteRemarque}{L'auditeur doit-il chercher la fraude~?}
+Pas systématiquement~: la lettre de mission d'AUDIX CONSEIL l'exclut
+(Chapitre~\ref{chap:audit-auditologie}). Mais il doit tenir compte du risque
+de fraude dans la conception de ses tests, rester attentif aux signaux, et
+ne jamais ignorer un indice qu'il a rencontré. Ne pas chercher n'est pas
+fermer les yeux.
+\end{boiteRemarque}
+
+\separateur
+
+\begin{boxresume}
+\textbf{Ce qu'il faut retenir de ce chapitre~:}
+\begin{itemize}
+    \item \textbf{La fraude est intentionnelle et se dissimule}~; c'est ce
+          qui la distingue de l'erreur et ce qui lui donne des schémas
+          reconnaissables.
+    \item \textbf{Le triangle de la fraude}~: pression, opportunité,
+          rationalisation~; l'auditeur et le contrôleur agissent surtout sur
+          l'opportunité.
+    \item \textbf{Les schémas assistés par l'informatique} exploitent des
+          cumuls de droits, des données de référence non protégées, des seuils
+          connus et des comptes dormants~; chacun laisse un signal dans les
+          données.
+    \item \textbf{Un programme anti-fraude} a cinq volets~: gouvernance,
+          évaluation, contrôles, investigation et correction, pilotage.
+    \item \textbf{La réponse \NEK{}} peut être stratégique~: un taux de \NEK{}
+          qui dépend de l'enjeu est un signal, pas une preuve.
+    \item \textbf{Devant des indices}, l'auditeur conserve les preuves,
+          informe le commanditaire et laisse la place à l'enquête.
+\end{itemize}
+\end{boxresume}
+
+\bigskip
+
+\begin{boxexo}[title={\ding{45}\quad Exercice~4.1. Erreur ou fraude~? \niveaubase}]
+Pour chacune des situations suivantes, indiquez s'il s'agit plutôt d'une
+erreur ou d'un signal de fraude, et le test qui permettrait de trancher.
+\begin{enumerate}[(a)]
+    \item Une facture est saisie deux fois, avec deux numéros différents.
+    \item Les coordonnées bancaires d'un transporteur sont modifiées, puis
+          rétablies trois jours plus tard, après un paiement.
+    \item Un ajustement de stock positif compense exactement un ajustement
+          négatif de la veille.
+    \item Une commande est passée un dimanche par un compte d'administration.
+\end{enumerate}
+\end{boxexo}
+
+\begin{boxexo}[title={\ding{45}\quad Exercice~4.2. Le triangle de TRANSLOG SERVICES \niveaumoyen}]
+Reprenez la constatation 1 de la section~\ref{sec:c04-donnees}.
+\begin{enumerate}[(a)]
+    \item Identifiez l'élément du triangle de la fraude sur lequel LiZbiZ peut
+          agir, et les contrôles correspondants.
+    \item Rédigez la constatation de façon factuelle, sans qualification
+          pénale.
+    \item Proposez deux tests complémentaires qui confirmeraient ou
+          infirmeraient le caractère fictif du fournisseur.
+\end{enumerate}
+\end{boxexo}
+
+\begin{boxexo}[title={\ding{45}\quad Exercice~4.3. Un usage stratégique de NEK~? \niveauexpert}]
+Reprenez la lecture de l'entrepôt de Douala (section~\ref{sec:c04-strategie}).
+\begin{enumerate}[(a)]
+    \item Recalculez $\mu$, $U$ et $H$ pour l'auto-évaluation et pour
+          l'entretien formel.
+    \item Proposez deux explications du déplacement des réponses, l'une
+          sincère, l'autre stratégique.
+    \item Concevez un protocole de recueil qui permettrait de départager ces
+          deux explications.
+    \item Rédigez la note que le chef de mission adresse au commanditaire, en
+          respectant la conduite à tenir de la section~\ref{sec:c04-enquete}.
+\end{enumerate}
+\end{boxexo}
+
+\bigskip
+
+\begin{boxinfo}
+\textbf{Transition.} La Partie~\ref{part:fondements} a posé ce que l'auditeur
+doit savoir~: ce qu'est un audit, le contrôle interne, le risque et la
+fraude. La Partie~\ref{part:methode} enseigne comment conduire la mission.
+Le Chapitre~\ref{chap:mission} en présente les principes et le cycle.
+\end{boxinfo}

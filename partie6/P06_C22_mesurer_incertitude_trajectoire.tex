@@ -1,0 +1,419 @@
+% ============================================================================
+% Fichier  : partie6/P06_C22_mesurer_incertitude_trajectoire.tex
+% Titre    : Mesurer l'Incertitude, la Stratégie et la Trajectoire
+% Auteur   : MINKA MI NGUIDJOÏ Thierry Emmanuel
+% Version  : 1.0 -- novembre 2026
+% ============================================================================
+% Sources : A1 (hal-05701270) : espace Omega_q, distribution p_q, conditions
+% C1 à C4 de la réponse NEK, métriques H_q, U_q, mu_q, rho_q, D_KL, quadrant,
+% cas limites, SUI (modèle logistique par répondant, score d'enjeu exogène,
+% trois réserves), protocole pré-enregistré à trois bras (G1, G2, G3).
+% A2 à A5 : présentés « en préparation » d'après leurs résumés, sans entrée
+% bibliographique (cadre de cohérence du corpus).
+% ATTENTION : la Proposition 1 (décomposition de l'entropie) de la
+% prépublication A1, version HAL comprise, porte un terme supplémentaire
+% « + U_q » ; il conduit, pour la distribution uniforme, à H > log2 3, ce qui
+% est impossible. Le cours donne l'identité exacte (propriété de groupement
+% de l'entropie), vérifiée sur les valeurs du cours. Erratum à décider par
+% l'auteur pour A1.
+% ============================================================================
+
+\chapter{Mesurer l'Incertitude, la Stratégie et la Trajectoire}
+\label{chap:incertitude}
+\chaptermark{Incertitude et trajectoire}
+
+\epigraph{%
+    « Distinguer ce que l'on sait,\\
+    ce que l'on a déposé, et ce qui reste à prouver. »%
+}{Règle du chapitre}
+
+\niveauChapitre{Recherche}{%
+    Maîtrise du Chapitre~\ref{chap:auditologie} (axiomes et piliers) et du
+    Chapitre~\ref{chap:conclure} (mesures)%
+}
+
+\begin{boxobjectifs}
+\begin{itemize}
+    \item Approfondir l'instrument trichotomique et ses métriques (A1)~:
+          conditions de la réponse \NEK{}, décomposition de l'entropie, cas
+          limites.
+    \item Comprendre l'indice d'usage stratégique (SUI), ses conditions
+          d'identification et ses limites.
+    \item Situer les travaux en préparation~: signalement stratégique (A3),
+          trajectoire (A2), décomposition (A4), instrumentation (A5).
+    \item Distinguer ce qui est établi, ce qui est déposé en prépublication
+          et ce qui reste à valider.
+\end{itemize}
+\end{boxobjectifs}
+
+\bigskip
+
+% ============================================================================
+\section*{Question directrice : que vaut ce que nous mesurons~?}
+% ============================================================================
+
+Le cours a calculé des dizaines de valeurs de $\mu$, $U$ et $H$. Elles
+reposent sur un instrument formalisé dans l'article A1~\cite{minka2026nek}.
+Ce chapitre en reprend les fondements, puis présente les travaux qui
+prolongent l'instrument dans trois directions~: la stratégie des
+répondants, la trajectoire des organisations, la structure des grilles.
+Il se termine par une règle de lecture~: tout n'a pas le même statut.
+
+\separateur
+
+% ============================================================================
+\section{L'Instrument Trichotomique}
+\label{sec:c22-instrument}
+% ============================================================================
+
+\subsection{L'espace des réponses}
+
+Pour chaque question $q$ d'un ensemble $I$, A1 remplace l'espace binaire
+par $\Omega_q = \{\OUI{}, \NON{}, \NEK{}\}$. Pour une population de
+répondants $R$, la distribution observée est
+\[
+    p_q(m) = \frac{1}{|R|} \sum_{r \in R} \mathbf{1}[x_{r,q} = m],
+    \qquad m \in \Omega_q,
+\]
+et l'on note $\mu_q = p_q(\OUI{})$ et $U_q = p_q(\NEK{})$. Le formalisme ne
+fait aucune hypothèse sur la manière dont les croyances se forment~: les
+engagements portent sur l'usage de \NEK{}.
+
+\subsection{Quatre conditions pour \NEK{}}
+
+A1 précise quatre conditions qui, ensemble, distinguent un \NEK{} légitime
+d'un mauvais usage. Le cours les a appliquées sans les nommer.
+
+\begin{tableaucours}{L{3.6cm}L{5.0cm}L{3.6cm}}{%
+    \tableauHeader{Condition (A1)} &
+    \tableauHeader{Sens} &
+    \tableauHeader{Dans le cours}
+}
+C1. Spécificité de l'objet & \NEK{} porte sur l'objet précis de la
+question, non sur le thème & Une question par contrôle, atomique
+(Chapitre~\ref{chap:decomposition}) \\
+C2. Asymétrie d'accès & L'information existe dans l'organisation, mais
+le répondant n'y a pas accès & Le document non remis dont on ignore
+l'existence (Chapitre~\ref{chap:planifier}) \\
+C3. Non-report & \NEK{} n'est pas « je vérifie et je reviens »~: si l'on
+peut vérifier dans le délai de la mesure, on répond & Délai écrit pour
+produire les pièces (Chapitre~\ref{chap:droit}) \\
+C4. Neutralité & \NEK{} n'approuve ni ne désapprouve~: aucun barème ne
+doit le rendre équivalent à \OUI{} ou à \NON{} & Pas de « demi-point »
+pour \NEK{} \\
+\end{tableaucours}
+\vspace{-0.8em}
+\begin{center}{\small\itshape Tableau~22.1. Les conditions C1 à C4 de la
+réponse \NEK{} (d'après A1)}\end{center}
+
+\subsection{Les métriques}
+
+\begin{tableaucours}{cL{4.2cm}L{6.4cm}}{%
+    \tableauHeader{Mesure} &
+    \tableauHeader{Définition} &
+    \tableauHeader{Interprétation}
+}
+$H_q$ & $-\sum_m p_q(m) \log_2 p_q(m)$ & Dispersion des états de
+connaissance des répondants \\
+$U_q$ & $p_q(\NEK{})$ & Lacune collective de connaissance \\
+$\mu_q$ & $p_q(\OUI{})$ & Taux de conformité~; rejoint le taux binaire
+quand $U_q$ est faible \\
+$\rho_q$ & $\hat\mu_q^{B} - \mu_q^{T}$ & Biais du choix forcé, du binaire
+au trichotomique \\
+$D_{\mathrm{KL}}$ & $\sum_m p^{(t+1)}(m) \log_2 \frac{p^{(t+1)}(m)}{p^{(t)}(m)}$
+& Coût informationnel de prédire le cycle $t+1$ à partir du cycle $t$ \\
+\end{tableaucours}
+\vspace{-0.8em}
+\begin{center}{\small\itshape Tableau~22.2. Les métriques de l'instrument
+(d'après A1)}\end{center}
+
+Deux remarques d'A1 sur la divergence méritent d'être retenues. Elle est
+asymétrique~: on la calcule dans le sens du temps, du cycle passé vers le
+cycle présent. Et elle exige qu'une modalité observée au cycle $t+1$ l'ait
+été aussi au cycle $t$~; sinon, on lisse les fréquences des petits
+échantillons.
+
+\subsection{Décomposer l'entropie}
+
+L'entropie trichotomique mêle deux sources de dispersion~: l'ignorance des
+répondants, et le désaccord entre ceux qui savent. La propriété de
+groupement de l'entropie~\cite{shannon1948} les sépare exactement. En
+notant $H_b(x) = -x\log_2 x - (1-x)\log_2(1-x)$ l'entropie binaire~:
+\[
+    H_q \;=\; H_b(U_q) \;+\; (1 - U_q)\, H_b\!\left(\frac{\mu_q}{1 - U_q}\right).
+\]
+Le premier terme mesure la part de l'ignorance~; le second, pondéré par la
+part des répondants informés, mesure leur désaccord. Une grille binaire
+n'observe que le second, et seulement après avoir forcé les ignorants à
+choisir.
+
+\begin{boxlecture}{Deux entropies, deux causes}
+\begin{tableaucours}{L{2.4cm}cccccc}{%
+    \tableauHeader{Domaine} &
+    \tableauHeader{O/N/K} & \tableauHeader{$U$} &
+    \tableauHeader{$H_b(U)$} & \tableauHeader{Désaccord} &
+    \tableauHeader{$H$} & \tableauHeader{Part ignorance}
+}
+D, mai~2026 & 13/2/5 & 0,25 & 0,81 & 0,42 & 1,24 & 66~\% \\
+E, mai~2026 & 8/6/6 & 0,30 & 0,88 & 0,69 & 1,57 & 56~\% \\
+B, mai~2026 & 8/3/1 & 0,08 & 0,41 & 0,77 & 1,19 & 35~\% \\
+\end{tableaucours}
+
+\medskip
+\textbf{Constatation.} Les trois domaines ont une entropie supérieure à
+1~bit, pour des raisons différentes. Dans D, les deux tiers de
+l'entropie viennent de l'ignorance~; dans B, près des deux tiers viennent
+du désaccord entre répondants informés.
+
+\medskip
+\textbf{Analyse} (confiance élevée sur le calcul). La décomposition dit
+quoi faire~: dans D, chercher la preuve~; dans B, chercher pourquoi des
+répondants qui savent ne disent pas la même chose (un site, une
+procédure, une période). C'est la lecture « $H$ élevé, $U$ faible » du
+Chapitre~\ref{chap:conclure}, rendue quantitative.
+
+\medskip
+\hfill\lecture{0{,}65}{0{,}25}{1{,}24}
+\end{boxlecture}
+
+\subsection{Cas limites}
+
+A1 énonce quatre cas limites. L'accord unanime sur \OUI{} donne $H = 0$,
+$U = 0$, $\mu = 1$~; sur \NON{}, $H = 0$, $U = 0$, $\mu = 0$. L'ignorance
+unanime donne $H = 0$ et $U = 1$~: entropie nulle, mais révélation
+maximale, puisque chacun sait qu'il ne sait pas. La distribution uniforme
+donne $H = \log_2 3$ et $U = \mu = 1/3$. D'où la règle du cours~: on ne
+lit jamais $H$ seul.
+
+% ============================================================================
+\section{La Stratégie : l'Indice d'Usage Stratégique}
+\label{sec:c22-sui}
+% ============================================================================
+
+\subsection{Le problème d'identification}
+
+Un \NEK{} est \emph{authentique} s'il traduit une vraie limite de
+connaissance~; il est \emph{stratégique} si le répondant sait, mais évite
+les conséquences d'une réponse nette. Pour une réponse isolée, les deux
+sont indiscernables. A1 propose de les distinguer au niveau du
+\emph{profil}~: l'ignorance authentique suit l'accès à l'information, qui
+ne dépend pas, en moyenne, de l'enjeu de la question~; l'ignorance
+stratégique se concentre sur les questions à fort enjeu.
+
+\subsection{La construction}
+
+Pour chaque question $q$, un score d'enjeu $s_q \in [0, 1]$ est fixé
+\emph{avant} la collecte par un panel d'experts indépendants. Pour chaque
+répondant $r$, A1 estime un modèle logistique
+\[
+    \log \frac{\Pr[\NEK{}_{r,q} = 1]}{1 - \Pr[\NEK{}_{r,q} = 1]}
+    \;=\; \alpha_r + \beta_r\, s_q + \gamma_r^{\top} \mathbf{z}_q,
+\]
+où $\mathbf{z}_q$ contient des contrôles (domaine, longueur, difficulté
+technique), et définit $\mathrm{SUI}_r = \hat\beta_r$. Un indice proche de
+zéro est compatible avec un usage authentique~; un indice positif et
+significatif signale un usage stratégique. L'ordonnée à l'origine
+$\alpha_r$ absorbe la propension de chacun à répondre \NEK{}~: un
+répondant qui en use beaucoup, mais partout, n'est pas stratégique.
+
+\begin{boxscenario}{Opération LIZBIZ. Deux contextes, mêmes questions}
+Au Chapitre~\ref{chap:fraude}, les mêmes dix questions sur le stock de
+Douala, posées aux mêmes deux responsables, donnaient 17~\OUI{}, 2~\NON{},
+1~\NEK{} en auto-évaluation, et 9~\OUI{}, 3~\NON{}, 8~\NEK{} en entretien
+formel. L'écart entre les deux contextes est le signal qu'A0 décrit aussi
+pour le domaine~D. Il ne suffit pas à calculer un SUI~: il faudrait des
+scores d'enjeu fixés à l'avance par des experts indépendants, et assez de
+questions par répondant pour estimer le modèle.
+\end{boxscenario}
+
+\begin{boxalert}
+\textbf{Trois réserves d'A1, à ne jamais oublier.}
+\begin{enumerate}
+    \item Un SUI positif signale une corrélation entre \NEK{} et enjeu, qui
+          peut avoir d'autres causes~: questions plus difficiles, accès plus
+          restreint.
+    \item Le score d'enjeu doit être exogène~: s'il est fixé par les
+          répondants eux-mêmes, l'indice n'est pas identifié.
+    \item Le SUI est un indicateur de population, \emph{pas} un diagnostic
+          de faute individuelle~: il n'établit pas l'intention et ne fonde
+          aucune sanction.
+\end{enumerate}
+\end{boxalert}
+
+\subsection{Le signalement stratégique (A3, en préparation)}
+
+Un article en préparation formalise l'interaction entre l'auditeur et
+l'audité comme un jeu de signalement bayésien, avec des types croisés
+(conforme ou non, honnête ou stratégique). Il y décrit des équilibres de
+mélange, de séparation et hybrides, montre que \NEK{} y fonctionne comme un
+signal coûteux, et propose deux indices complémentaires du SUI, de mélange
+et de séparation. Il étend le cadre à l'avantage du premier coup de
+l'auditeur, au régulateur comme troisième joueur, et à l'audit de sécurité
+face à un attaquant. Un protocole expérimental par vignettes y est
+pré-enregistré.
+
+% ============================================================================
+\section{La Trajectoire, la Structure, l'Instrument}
+\label{sec:c22-travaux}
+% ============================================================================
+
+\subsection{La trajectoire (A2, en préparation)}
+
+Une comparaison de deux cycles ne distingue pas, aujourd'hui, une
+amélioration réelle d'un artefact de mesure~: changement de répondants,
+de libellés, d'incertitude collective. L'article en préparation sur le
+suivi longitudinal construit trois outils~: un score global
+d'amélioration entre cycles, aux propriétés statistiques connues~; un
+descripteur topologique des trajectoires, qui repère les changements de
+régime~; et une chaîne de Markov sur les niveaux de maturité, qui fournit
+des probabilités de régression calibrées, utiles pour programmer les
+audits selon le risque. Son protocole de validation est pré-enregistré sur
+un déploiement en plusieurs cycles dans une entreprise agro-industrielle
+camerounaise, anonymisée, dont les deux premiers cycles sont collectés.
+
+\subsection{La structure (A4, en préparation)}
+
+Le gabarit canonique du Chapitre~\ref{chap:decomposition} vient de
+l'article en préparation sur la décomposition. Celui-ci part de deux
+principes, une borne cognitive et une exigence ontologique
+d'exhaustivité et de non-redondance, et établit un théorème
+d'invariance structurelle~: sous ces conditions, toute décomposition
+admissible d'un domaine d'audit des SI admet le gabarit à huit niveaux,
+du domaine à la trace.
+
+\subsection{L'instrument (A5, en préparation)}
+
+ARKAN, présenté au Chapitre~\ref{chap:audit-continu}, est spécifié dans un
+article en préparation comme un artefact de science du design, en trois
+modules~: un cœur qui génère les grilles à partir du gabarit canonique, un
+atelier de configuration et d'exécution pour le praticien, et un module de
+rapport qui calcule en temps réel les mesures informationnelles et
+stratégiques. L'article consacre une section à la \emph{performativité}
+de l'outil~: une grille adaptative n'observe pas le domaine de façon
+neutre, elle participe à ce que l'audit mesure (proposition de
+réflexivité, Chapitre~\ref{chap:auditologie}).
+
+% ============================================================================
+\section{Établi, Déposé, à Valider}
+\label{sec:c22-statut}
+% ============================================================================
+
+\begin{tableaucours}{L{3.6cm}L{3.4cm}L{5.2cm}}{%
+    \tableauHeader{Élément} &
+    \tableauHeader{Statut} &
+    \tableauHeader{Ce qui reste à faire}
+}
+Entropie, divergence, groupement & Établi (théorie de l'information) &
+· \\
+Programme de l'auditologie (A0) & Prépublication HAL, 2026 & Discussion
+par la communauté~; tests des prédictions \\
+Instrument \OUI{}/\NON{}/\NEK{}, métriques, SUI (A1) & Prépublication HAL,
+2026~; protocole pré-enregistré & Expérience à trois bras~: groupes
+fondation, validation, généralisation, chacun en binaire et en
+trichotomique \\
+Signalement stratégique (A3) & En préparation & Dépôt~; protocole par
+vignettes \\
+Trajectoire et maturité (A2) & En préparation & Cycles suivants du terrain
+agro-industriel \\
+Décomposition (A4) & En préparation & Dépôt~; mise à l'épreuve sur
+d'autres domaines \\
+ARKAN (A5) & En préparation & Dépôt~; protocole de validation
+multicritère \\
+Cas du cours (LiZbiZ, SANAGA, ANPP) & Fictifs, pédagogiques & Ils
+illustrent~; ils ne prouvent rien \\
+\end{tableaucours}
+\vspace{-0.8em}
+\begin{center}{\small\itshape Tableau~22.3. Le statut des éléments
+présentés dans le cours}\end{center}
+
+\begin{boiteRemarque}{Pourquoi insister sur le statut~?}
+Parce que l'auditologie s'applique à elle-même ce qu'elle demande à
+l'auditeur~: distinguer ce qui est établi (\OUI{}), ce qui est réfuté
+(\NON{}) et ce qui reste inconnu (\NEK{}). Un étudiant qui cite le SUI
+comme un résultat validé commettrait l'erreur que le cours apprend à
+éviter~: coter \OUI{} sans preuve.
+\end{boiteRemarque}
+
+\begin{boxmetier}{Auditeur SI}
+\textbf{Contribuer à la recherche sans trahir la mission}
+\begin{enumerate}
+    \item Conserver les cotations question par question, avec le contexte
+          (entretien, auto-évaluation) et la date.
+    \item Garder les mêmes questions et les mêmes critères d'un cycle à
+          l'autre, pour que la divergence ait un sens.
+    \item Anonymiser avant tout partage, avec l'accord écrit du
+          commanditaire.
+    \item Ne jamais utiliser un indicateur de recherche, comme le SUI, pour
+          mettre en cause une personne.
+\end{enumerate}
+\end{boxmetier}
+
+% ============================================================================
+
+\separateur
+
+\begin{boxresume}
+\textbf{Ce qu'il faut retenir de ce chapitre~:}
+\begin{itemize}
+    \item \textbf{\NEK{} obéit à quatre conditions} (A1)~: spécificité de
+          l'objet, asymétrie d'accès, non-report, neutralité.
+    \item \textbf{L'entropie se décompose} en une part d'ignorance,
+          $H_b(U)$, et une part de désaccord entre répondants informés~;
+          elle dit s'il faut chercher la preuve ou la cause du désaccord.
+    \item \textbf{Le SUI} repère un usage stratégique de \NEK{} au niveau
+          d'une population, à partir d'enjeux fixés à l'avance~; il ne
+          désigne aucun coupable.
+    \item \textbf{Trois prolongements sont en préparation}~: le
+          signalement stratégique, la trajectoire et la maturité, la
+          décomposition, plus l'outil ARKAN.
+    \item \textbf{Établi, déposé, à valider}~: le cours applique à ses
+          propres sources la distinction \OUI{}, \NON{}, \NEK{}.
+\end{itemize}
+\end{boxresume}
+
+\bigskip
+
+\begin{boxexo}[title={\ding{45}\quad Exercice~22.1. Quelle condition~? \niveaubase}]
+Indiquez la condition C1 à C4 que chaque situation méconnaît.
+\begin{enumerate}[(a)]
+    \item Un chef d'agence répond \NEK{} à toute la section « sécurité »,
+          qu'il ne connaît pas.
+    \item Un répondant coche \NEK{} en attendant de consulter un dossier
+          qu'il a sur son bureau.
+    \item Une grille compte \NEK{} pour un demi-point de conformité.
+    \item Un DSI répond \NEK{} sur un contrôle qu'il administre lui-même.
+\end{enumerate}
+\end{boxexo}
+
+\begin{boxexo}[title={\ding{45}\quad Exercice~22.2. Décomposer l'entropie \niveaumoyen}]
+\begin{enumerate}[(a)]
+    \item Décomposez l'entropie du domaine~E de LiZbiZ en novembre~2026
+          (8/4/8) et comparez la part d'ignorance à celle de mai.
+    \item Vérifiez l'identité de groupement sur la distribution uniforme
+          (1/1/1).
+    \item Décomposez le cycle achats-paiements après tests (14/6/0) et
+          interprétez.
+\end{enumerate}
+\end{boxexo}
+
+\begin{boxexo}[title={\ding{45}\quad Exercice~22.3. Préparer un sujet de mémoire \niveauexpert}]
+Choisissez une prédiction de la matrice de falsifiabilité
+(Chapitre~\ref{chap:auditologie}) ou une hypothèse d'A1.
+\begin{enumerate}[(a)]
+    \item Formulez la question de recherche et l'hypothèse.
+    \item Décrivez le terrain, les données, et l'accord à obtenir.
+    \item Précisez ce qui réfuterait l'hypothèse, et ce qui serait révisé.
+    \item Indiquez le statut de chaque source citée~: établie, déposée, en
+          préparation.
+\end{enumerate}
+\end{boxexo}
+
+\bigskip
+
+\begin{boxinfo}
+\textbf{Conclusion du cours.} Auditer, c'est réduire l'incertitude d'un
+tiers sur un système qu'il ne peut pas observer seul. Le métier en donne
+les gestes~; l'auditologie en cherche les raisons, et accepte d'être
+réfutée. Les annexes rassemblent le glossaire, les outils et les modèles
+pour la pratique.
+\end{boxinfo}
